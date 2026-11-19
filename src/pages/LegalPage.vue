@@ -20,6 +20,8 @@ const page = computed(() => legalPages[route.meta.legalKey] || legalPages.privac
       :eyebrow="page.eyebrow"
       :lede="page.lede"
       :crumbs="[{ label: page.eyebrow }]"
+      image="/images/gallery-art.webp"
+      image-position="50% 44%"
     >
       <template #title>{{ page.titleLead }}<br /><em>{{ page.titleAccent }}</em></template>
       <div class="legal-hero-meta">

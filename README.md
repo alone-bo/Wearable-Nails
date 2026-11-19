@@ -48,6 +48,8 @@ The test suite covers desktop navigation, shop filtering and sorting, quick view
 - Studio services with a validated appointment request flow
 - About page with brand story, values, atelier photography and timeline
 - Searchable FAQ with 19 answers across five categories
+- Full-image nail photography in interior-page banners, with exclusive active navigation states and scroll-preserving shop filters
+- A light sand CTA band above the dark footer, kept deliberately distinct from the footer ground
 - Contact page with validated form, studio details, map link and contact channels
 - Journal index and three full editorial articles with table of contents
 - Privacy, Terms and Shipping & Returns pages with sticky on-page navigation

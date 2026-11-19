@@ -18,6 +18,8 @@ const rest = journal.slice(1)
       eyebrow="The Journal"
       lede="Notes on colour, care and the small rituals that make a week feel softer. Written slowly, from the atelier on the Corniche."
       :crumbs="[{ label: 'Journal' }]"
+      image="/images/journal-colour.webp"
+      image-position="50% 48%"
     >
       <template #title>Notes on<br /><em>slow beauty.</em></template>
     </PageHero>

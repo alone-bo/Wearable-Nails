@@ -8,11 +8,22 @@ defineProps({
   lede: { type: String, default: '' },
   crumbs: { type: Array, default: () => [] },
   tone: { type: String, default: 'cream' },
+  image: { type: String, default: '' },
+  imagePosition: { type: String, default: 'center' },
 })
 </script>
 
 <template>
-  <section class="page-hero" :class="`page-hero--${tone}`">
+  <section
+    class="page-hero"
+    :class="[`page-hero--${tone}`, { 'page-hero--with-image': image }]"
+  >
+    <div
+      v-if="image"
+      class="page-hero__image"
+      :style="{ backgroundImage: `url(${image})`, backgroundPosition: imagePosition }"
+      aria-hidden="true"
+    />
     <span class="page-hero__sun" aria-hidden="true"><SunMark :size="310" /></span>
     <div class="container page-hero__inner">
       <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -57,10 +68,33 @@ defineProps({
   color: var(--cream);
 }
 
+.page-hero__image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 43%;
+  background-color: var(--sand);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.88;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
+}
+
+.page-hero__image::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(247, 242, 233, 0.44), transparent 45%);
+  content: '';
+}
+
 .page-hero__sun {
   position: absolute;
   top: -100px;
   right: 4%;
+  z-index: 1;
   color: var(--rose);
   opacity: 0.16;
   pointer-events: none;
@@ -68,7 +102,16 @@ defineProps({
 
 .page-hero__inner {
   position: relative;
+  z-index: 2;
+}
+
+.page-hero__inner > * {
+  position: relative;
   z-index: 1;
+}
+
+.page-hero--with-image .page-hero__inner > * {
+  max-width: min(760px, 58%);
 }
 
 .breadcrumb {
@@ -137,6 +180,26 @@ defineProps({
 
 .page-hero--dark .page-hero__title :deep(em) {
   color: var(--rose-light);
+}
+
+@media (max-width: 1100px) {
+  .page-hero--with-image .page-hero__inner > * {
+    max-width: min(700px, 62%);
+  }
+
+  .page-hero__image {
+    width: 38%;
+  }
+}
+
+@media (max-width: 980px) {
+  .page-hero__image {
+    display: none;
+  }
+
+  .page-hero--with-image .page-hero__inner > * {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 640px) {

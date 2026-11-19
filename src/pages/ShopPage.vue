@@ -58,6 +58,8 @@ function categoryCount(id) {
       eyebrow="The collection"
       lede="Reusable press-on sets, salon-grade nail care and small-batch gifts. Designed in Casablanca, made to be worn on repeat."
       :crumbs="[{ label: 'Shop' }]"
+      image="/images/hero-nails.webp"
+      image-position="50% 38%"
     >
       <template #title>Everyday pieces,<br /><em>made slowly.</em></template>
 

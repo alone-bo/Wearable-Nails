@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import BaseDialog from './BaseDialog.vue'
 import BrandLogo from './BrandLogo.vue'
 import Icon from './Icon.vue'
@@ -10,18 +10,33 @@ defineProps({
 })
 
 const emit = defineEmits(['open-cart', 'open-search', 'open-booking'])
+const route = useRoute()
 
 const scrolled = ref(false)
 const menuOpen = ref(false)
 
 const navItems = [
-  { label: 'Shop all', to: '/shop' },
-  { label: 'Press-ons', to: '/shop?category=press-on' },
-  { label: 'Nail care', to: '/shop?category=care' },
+  { label: 'Shop all', to: '/shop', category: 'all' },
+  { label: 'Press-ons', to: '/shop?category=press-on', category: 'press-on' },
+  { label: 'Nail care', to: '/shop?category=care', category: 'care' },
   { label: 'About', to: '/about' },
   { label: 'Journal', to: '/journal' },
   { label: 'FAQ', to: '/faq' },
 ]
+
+function isCurrent(item) {
+  if (item.category) {
+    if (route.path !== '/shop') return false
+    const currentCategory = route.query.category || 'all'
+    return currentCategory === item.category
+  }
+
+  if (item.to === '/journal') {
+    return route.path === '/journal' || route.path.startsWith('/journal/')
+  }
+
+  return route.path === item.to
+}
 
 function handleScroll() {
   scrolled.value = window.scrollY > 12
@@ -45,6 +60,11 @@ function openSearchFromMenu() {
   menuOpen.value = false
   window.setTimeout(() => emit('open-search'), 280)
 }
+
+function handleNavClick(event, navigate) {
+  navigate(event)
+  menuOpen.value = false
+}
 </script>
 
 <template>
@@ -55,7 +75,22 @@ function openSearchFromMenu() {
       </RouterLink>
 
       <nav class="primary-nav" aria-label="Primary">
-        <RouterLink v-for="item in navItems" :key="item.label" :to="item.to">{{ item.label }}</RouterLink>
+        <RouterLink
+          v-for="item in navItems"
+          :key="item.label"
+          :to="item.to"
+          custom
+          v-slot="{ href, navigate }"
+        >
+          <a
+            :href="href"
+            :class="{ 'is-current': isCurrent(item) }"
+            :aria-current="isCurrent(item) ? 'page' : undefined"
+            @click="handleNavClick($event, navigate)"
+          >
+            {{ item.label }}
+          </a>
+        </RouterLink>
       </nav>
 
       <div class="site-header__actions">
@@ -106,10 +141,18 @@ function openSearchFromMenu() {
             v-for="(item, index) in navItems"
             :key="item.label"
             :to="item.to"
-            @click="menuOpen = false"
+            custom
+            v-slot="{ href, navigate }"
           >
-            <span>{{ item.label }}</span>
-            <small>0{{ index + 1 }}</small>
+            <a
+              :href="href"
+              :class="{ 'is-current': isCurrent(item) }"
+              :aria-current="isCurrent(item) ? 'page' : undefined"
+              @click="handleNavClick($event, navigate)"
+            >
+              <span>{{ item.label }}</span>
+              <small>0{{ index + 1 }}</small>
+            </a>
           </RouterLink>
         </nav>
 
@@ -226,11 +269,11 @@ function openSearchFromMenu() {
   color: var(--sage-deep);
 }
 
-.primary-nav a.router-link-exact-active {
+.primary-nav a.is-current {
   color: var(--sage-deep);
 }
 
-.primary-nav a.router-link-exact-active::after {
+.primary-nav a.is-current::after {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -330,7 +373,7 @@ function openSearchFromMenu() {
   color: var(--sage-deep);
 }
 
-.mobile-menu__nav a.router-link-exact-active {
+.mobile-menu__nav a.is-current {
   color: var(--sage-deep);
 }
 

@@ -157,6 +157,8 @@ function countFor(id) {
       title="Good questions, answered."
       lede="Everything you might want to know about our sets, the studio, delivery and the small print. If your question is not here, we are one message away."
       :crumbs="[{ label: 'FAQ' }]"
+      image="/images/hero-detail.webp"
+      image-position="50% 48%"
     >
       <template #title>Good questions,<br /><em>answered.</em></template>
 

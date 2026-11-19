@@ -100,6 +100,9 @@ const router = createRouter({
     if (to.hash) {
       return { el: to.hash, top: 104, behavior: 'smooth' }
     }
+    // Filtering the shop updates only the query string. Keep the user at the
+    // product grid instead of jumping back to the top of the page.
+    if (to.path === from.path && to.hash === from.hash) return false
     return { top: 0, behavior: 'smooth' }
   },
 })

@@ -173,8 +173,10 @@ Quiet, tactile, specific. Short sentences. Avoid hype.
 
 All non-home pages reuse the same shell and rhythm:
 
-- **PageHero**: small breadcrumb, 10px eyebrow, oversized serif H1 with a light-green italic accent, 540px lede, optional metadata row or search/filter controls. Background is cream with a faint rose sun at the upper right.
-- **PageCta**: shared deep-green closing band with a serif headline, 12px supporting copy and one or two actions. Use `btn--cream` for the primary action and `btn--ghost-light` for the secondary.
+- **PageHero**: small breadcrumb, 10px eyebrow, oversized serif H1 with a light-green italic accent, 540px lede, optional metadata row or search/filter controls, and an optional full-bleed nail photograph on the right (faded into cream, hidden below 980px). Background is cream with a faint rose sun at the upper right.
+- **PageCta**: shared **light sand-to-cream closing band** — not a dark band — with a serif headline, 12px supporting copy, a rose sun watermark and dark-green/outline actions. The light CTA sits directly above the dark footer and must stay visually distinct from it.
+- **Navigation state**: active page links are calculated from path *and* shop category, never from RouterLink’s automatic path-only active classes. Exactly one primary nav item may be marked active.
+- **Shop filters**: category changes update the query string without resetting scroll position. Moving between pages still scrolls to the top (or to the requested hash).
 - **Reading pages**: 710px max text column, 11–12px/1.85 body copy, numbered H2s, sticky table of contents at 230px. On mobile the table of contents collapses and the text becomes single-column.
 - **FAQ**: two-column layout with sticky search/category rail, accordion rows built on native `<details>`, and the first answer open by default.
 - **Shop**: PageHero → filter/sort toolbar → product grid → closing CTA. Filter state lives in the query string so a filtered collection can be shared.

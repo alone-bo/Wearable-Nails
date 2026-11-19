@@ -55,6 +55,8 @@ function reset() {
       eyebrow="Contact & visit"
       lede="A question about a set, a note about an order, or simply a hello — the atelier reads every message. You can also find us on the Corniche, seven days a week."
       :crumbs="[{ label: 'Contact' }]"
+      image="/images/gallery-gold.webp"
+      image-position="50% 45%"
     >
       <template #title>Come by.<br /><em>Or write to us.</em></template>
     </PageHero>
