@@ -258,7 +258,7 @@ const timeline = [
 .about-hero {
   position: relative;
   overflow: hidden;
-  padding-block: clamp(44px, 5.8vw, 78px) clamp(58px, 7vw, 100px);
+  padding-block: clamp(30px, 3.8vw, 52px) clamp(36px, 4.4vw, 64px);
   background:
     radial-gradient(circle at 90% 10%, rgba(229, 200, 184, 0.22), transparent 30%),
     var(--cream);
@@ -360,6 +360,8 @@ const timeline = [
 
 .about-hero__media img {
   width: 100%;
+  height: auto;
+  max-height: clamp(380px, 56vh, 600px);
   aspect-ratio: 4 / 4.7;
   border-radius: 200px 200px 8px 8px;
   object-fit: cover;
@@ -382,6 +384,7 @@ const timeline = [
 .about-story {
   border-top: 1px solid var(--line-soft);
   background: var(--cream-soft);
+  padding-block: clamp(62px, 7vw, 96px);
 }
 
 .about-story__grid {
@@ -421,6 +424,8 @@ const timeline = [
 
 .about-story__media img {
   width: 100%;
+  height: auto;
+  max-height: clamp(380px, 58vh, 620px);
   aspect-ratio: 4 / 4.8;
   border-radius: 240px 240px 7px 7px;
   object-fit: cover;
@@ -511,7 +516,7 @@ const timeline = [
 }
 
 .about-atelier {
-  padding-block: clamp(64px, 8vw, 106px);
+  padding-block: clamp(60px, 6.5vw, 92px);
   background:
     radial-gradient(circle at 92% 4%, rgba(191, 141, 118, 0.12), transparent 30%),
     var(--sage-deep);
@@ -532,6 +537,8 @@ const timeline = [
 
 .about-atelier figure img {
   width: 100%;
+  height: auto;
+  max-height: clamp(380px, 60vh, 620px);
   aspect-ratio: 4 / 4.7;
   border-radius: 7px;
   object-fit: cover;
@@ -681,8 +688,16 @@ const timeline = [
     justify-self: start;
   }
 
+  .about-hero__media img {
+    max-height: 420px;
+  }
+
   .about-story__media {
     width: min(100%, 470px);
+  }
+
+  .about-story__media img {
+    max-height: 440px;
   }
 
   .about-values__head {
@@ -695,6 +710,10 @@ const timeline = [
 
   .about-atelier figure {
     width: min(100%, 460px);
+  }
+
+  .about-atelier figure img {
+    max-height: 440px;
   }
 }
 

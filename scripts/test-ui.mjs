@@ -113,6 +113,24 @@ await page.waitForTimeout(350)
 assert((await page.locator('h1').innerText()).includes('Made slowly'), 'about page renders')
 assert((await page.locator('.about-values__grid article').count()) === 3, 'about page shows three values')
 
+const aboutFit = await page.evaluate(() => {
+  const hero = document.querySelector('.about-hero').getBoundingClientRect()
+  const image = document.querySelector('.about-hero__media img').getBoundingClientRect()
+  return { heroBottom: Math.round(hero.bottom), imageBottom: Math.round(image.bottom), viewport: window.innerHeight }
+})
+assert(aboutFit.heroBottom <= aboutFit.viewport + 1, 'about hero fits inside a 1440×900 viewport')
+assert(aboutFit.imageBottom <= aboutFit.viewport + 1, 'about hero image does not extend below the desktop viewport')
+
+await page.setViewportSize({ width: 1366, height: 768 })
+await page.waitForTimeout(300)
+const aboutLaptopFit = await page.evaluate(() => {
+  const hero = document.querySelector('.about-hero').getBoundingClientRect()
+  return { heroBottom: Math.round(hero.bottom), viewport: window.innerHeight }
+})
+assert(aboutLaptopFit.heroBottom <= aboutLaptopFit.viewport + 1, 'about hero fits inside a 1366×768 laptop viewport')
+await page.setViewportSize({ width: 1440, height: 900 })
+await page.waitForTimeout(250)
+
 // FAQ search and category filter
 await page.goto(baseUrl + '/faq', { waitUntil: 'networkidle' })
 await page.waitForTimeout(350)
