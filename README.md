@@ -19,7 +19,7 @@ pnpm preview     # preview the production build
 pnpm test        # requires `pnpm dev` running in another terminal
 ```
 
-The test suite covers desktop navigation, shop filtering and sorting, quick view → product page, cart updates, search, booking, contact and newsletter forms, FAQ search, journal routing, legal pages, the 404 page and mobile dialogs.
+The test suite covers desktop navigation, product search and filters, quick view → product page, product reviews, cart updates, checkout and demo payment, search, booking, contact, review and newsletter forms, FAQ search, journal routing, legal pages, the 404 page and mobile dialogs.
 
 ## Pages
 
@@ -28,6 +28,9 @@ The test suite covers desktop navigation, shop filtering and sorting, quick view
 | `/` | Homepage |
 | `/shop` | Shop collection, with category filters and sorting |
 | `/product/:slug` | Product detail page |
+| `/product/:slug/reviews` | Product reviews and review form |
+| `/cart` | Full shopping bag |
+| `/checkout` / `/payment` | Delivery details and demo payment |
 | `/about` | About YOUGLOW / atelier story |
 | `/faq` | Searchable FAQ with category filters |
 | `/contact` | Contact form, studio details and map link |
@@ -42,8 +45,12 @@ The test suite covers desktop navigation, shop filtering and sorting, quick view
 
 - Editorial homepage with loyalty card, signature product card and social proof
 - Routed shop with category filtering, price sorting and URL-synced filters
+- Instant product search on both the homepage shop module and the full Shop page
 - Product detail pages with quantity, wishlist, add-to-bag, accordions and related products
-- Working shopping bag drawer: quantity updates, remove, free-delivery progress, subtotal
+- Full product reviews pages with rating breakdown, rating filters and a validated demo review form
+- Full cart page and checkout / payment page with delivery and payment options
+- Shared shopping bag drawer: quantity updates, remove, free-delivery progress, subtotal
+- Newsletter subscription integrated into the footer instead of a standalone homepage module
 - Instant search dialog linking into product quick views and full product pages
 - Studio services with a validated appointment request flow
 - About page with brand story, values, atelier photography and timeline
@@ -62,8 +69,8 @@ The test suite covers desktop navigation, shop filtering and sorting, quick view
 
 This is a **front-end storefront demo**, not a production commerce integration:
 
-- Checkout is not connected to a payment provider. The button deliberately shows a demo message.
-- Appointment requests, contact messages and newsletter subscriptions are validated in the browser and show local success states; nothing is sent to a server.
+- Checkout and payment are not connected to a payment provider. The order button deliberately shows a demo confirmation and no payment is taken.
+- Appointment requests, contact messages, product reviews and newsletter subscriptions are validated in the browser and show local success states; nothing is sent to a server.
 - Privacy, Terms and Shipping & Returns are **demonstration templates**, not legal advice. They are marked as templates in the UI and should be reviewed by a qualified professional before launch.
 - Product imagery is demo stock photography, not final brand photography.
 
@@ -77,8 +84,11 @@ src/
   fonts.css                  local font-face declarations
   pages/
     HomePage.vue             full editorial homepage
-    ShopPage.vue             collection listing, filters and sorting
+    ShopPage.vue             collection listing, search, filters and sorting
     ProductPage.vue          product detail, accordions and related pieces
+    ReviewsPage.vue          product rating summary, review filters and review form
+    CartPage.vue             full bag, quantity controls and order summary
+    CheckoutPage.vue         delivery address, shipping, payment and demo confirmation
     AboutPage.vue            brand story, values, atelier and timeline
     FaqPage.vue              searchable FAQ
     ContactPage.vue          contact form and studio information
@@ -89,13 +99,16 @@ src/
   stores/shop.js             shared cart, wishlist, dialogs and toast state
   data/
     products.js              products, services, testimonials, journal articles
+    reviews.js               product review samples and rating breakdowns
     legal.js                 privacy, terms and shipping copy
+  utils/productSearch.js     shared homepage / shop keyword matching
   components/
     BaseDialog.vue           accessible native <dialog> wrapper
     BookingDialog.vue        validated booking request flow
     BrandLogo.vue            serif wordmark + sun “O”
-    CartDrawer.vue           cart drawer and empty state
+    CartDrawer.vue           mini cart drawer and empty state
     Icon.vue                 inline SVG icon set
+    NewsletterForm.vue       footer newsletter form and local success state
     PageCta.vue              shared closing CTA band
     PageHero.vue             shared interior-page title and breadcrumbs
     ProductCard.vue          product card and wishlist/quick-add controls
@@ -145,4 +158,4 @@ The app uses HTML5 history routing. When deploying to a static host, add an SPA 
 
 Photography is sourced from Unsplash and Pexels for this design demo and optimized to local WebP files. See [CREDITS.md](CREDITS.md) for sources. Replace with commissioned YOUGLOW photography before production. Fonts are self-hosted from Google Fonts (SIL Open Font License).
 
-Tested in Chromium with Playwright across 12 routes and five breakpoints. No browser console errors, no broken images, no unnamed interactive controls and no horizontal overflow at 360, 390, 768, 1024 and 1440 px.
+Tested in Chromium with Playwright across all routes and five breakpoints. No browser console errors, no broken images, no unnamed interactive controls and no horizontal overflow at 360, 390, 768, 1024 and 1440 px.

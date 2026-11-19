@@ -15,6 +15,7 @@ const icons = {
     '<path d="M20.8 5.8a5.1 5.1 0 0 0-7.2 0L12 7.4l-1.6-1.6a5.1 5.1 0 0 0-7.2 7.2L12 21l8.8-8.8a5.1 5.1 0 0 0 0-7.2v.8Z"/>',
   star: '<path d="m12 3.2 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3.2Z"/>',
   arrowRight: '<path d="M4 12h15"/><path d="m13 6 6 6-6 6"/>',
+  arrowDown: '<path d="M12 4v15"/><path d="m6 13 6 6 6-6"/>',
   arrowUpRight: '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>',
   close: '<path d="m5 5 14 14M19 5 5 19"/>',
   menu: '<path d="M3 7h18M3 12h18M3 17h18"/>',

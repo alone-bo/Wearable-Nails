@@ -36,13 +36,26 @@ const {
   updateQty,
   removeFromCart,
   toggleWishlist,
-  checkout,
 } = useShop()
 
 function browseFromCart() {
   cartOpen.value = false
   window.setTimeout(() => {
     router.push('/shop')
+  }, 260)
+}
+
+function goToCart() {
+  cartOpen.value = false
+  window.setTimeout(() => {
+    router.push('/cart')
+  }, 260)
+}
+
+function goToCheckout() {
+  cartOpen.value = false
+  window.setTimeout(() => {
+    router.push('/checkout')
   }, 260)
 }
 
@@ -105,7 +118,8 @@ watch(
       @close="cartOpen = false"
       @update-qty="updateQty"
       @remove="removeFromCart"
-      @checkout="checkout"
+      @checkout="goToCheckout"
+      @view-cart="goToCart"
       @browse="browseFromCart"
     />
 

@@ -8,13 +8,12 @@ import ProductVisual from '../components/ProductVisual.vue'
 import SunMark from '../components/SunMark.vue'
 import { categories, journal, products, services, testimonials } from '../data/products.js'
 import { useShop } from '../stores/shop.js'
+import { matchesProductQuery } from '../utils/productSearch.js'
 
 const { wishlist, addToCart, openQuick, openBooking, toggleWishlist } = useShop()
 
 const activeCategory = ref('all')
-const newsletterEmail = ref('')
-const newsletterState = ref('idle')
-const newsletterMessage = ref('')
+const productQuery = ref('')
 
 const ratingStars = [1, 2, 3, 4, 5]
 
@@ -47,31 +46,28 @@ const gallery = [
 ]
 
 const visibleProducts = computed(() => {
-  if (activeCategory.value === 'all') return products
-  return products.filter((product) => product.category === activeCategory.value)
+  const base =
+    activeCategory.value === 'all'
+      ? products
+      : products.filter((product) => product.category === activeCategory.value)
+
+  return base.filter((product) => matchesProductQuery(product, productQuery.value))
 })
 
 function categoryCount(id) {
   return id === 'all' ? products.length : products.filter((product) => product.category === id).length
 }
 
-function scrollToNewsletter() {
-  document.querySelector('#newsletter')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  window.setTimeout(() => {
-    document.querySelector('#newsletter-email')?.focus({ preventScroll: true })
-  }, 700)
+function clearProductFilters() {
+  activeCategory.value = 'all'
+  productQuery.value = ''
 }
 
-function subscribe() {
-  const email = newsletterEmail.value.trim()
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    newsletterState.value = 'error'
-    newsletterMessage.value = 'Please enter a valid email address.'
-    return
-  }
-  newsletterState.value = 'success'
-  newsletterMessage.value = 'You are on the list. Welcome to the glow — your 10% welcome note is on its way.'
-  newsletterEmail.value = ''
+function scrollToFooterNewsletter() {
+  document.querySelector('#footer-newsletter')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  window.setTimeout(() => {
+    document.querySelector('#footer-newsletter-email')?.focus({ preventScroll: true })
+  }, 700)
 }
 </script>
 
@@ -195,27 +191,48 @@ function subscribe() {
             </div>
           </div>
 
-          <div class="shop__toolbar">
-            <div class="shop__filters" role="group" aria-label="Filter the collection">
-              <button
-                v-for="category in categories"
-                :key="category.id"
-                type="button"
-                :class="{ 'is-active': activeCategory === category.id }"
-                :aria-pressed="activeCategory === category.id"
-                @click="activeCategory = category.id"
-              >
-                {{ category.label }}
-                <span>{{ categoryCount(category.id) }}</span>
-              </button>
-            </div>
-            <p class="shop__note">
-              <SunMark :size="18" />
-              Small batches, packed by hand
-            </p>
-          </div>
+            <div class="shop__toolbar">
+              <div class="shop__filters" role="group" aria-label="Filter the collection">
+                <button
+                  v-for="category in categories"
+                  :key="category.id"
+                  type="button"
+                  :class="{ 'is-active': activeCategory === category.id }"
+                  :aria-pressed="activeCategory === category.id"
+                  @click="activeCategory = category.id"
+                >
+                  {{ category.label }}
+                  <span>{{ categoryCount(category.id) }}</span>
+                </button>
+              </div>
 
-          <div class="product-grid" aria-live="polite">
+              <div class="shop__toolbar-end">
+                <div class="shop__search">
+                  <Icon name="search" :size="16" />
+                  <label class="sr-only" for="home-product-search">Search the collection</label>
+                  <input
+                    id="home-product-search"
+                    v-model="productQuery"
+                    type="search"
+                    placeholder="Search sets, shades, care…"
+                  />
+                  <button
+                    v-if="productQuery"
+                    type="button"
+                    aria-label="Clear product search"
+                    @click="productQuery = ''"
+                  >
+                    <Icon name="close" :size="14" />
+                  </button>
+                </div>
+                <p class="shop__note">
+                  <SunMark :size="18" />
+                  Small batches, packed by hand
+                </p>
+              </div>
+            </div>
+
+          <div v-if="visibleProducts.length" class="product-grid" aria-live="polite">
             <ProductCard
               v-for="(product, index) in visibleProducts"
               :key="product.id"
@@ -226,6 +243,16 @@ function subscribe() {
               @quick-view="openQuick"
               @toggle-wishlist="toggleWishlist"
             />
+          </div>
+
+          <div v-else class="shop__empty" role="status">
+            <SunMark :size="42" />
+            <h3>No pieces matched that search.</h3>
+            <p>Try a different shade, product type or a shorter phrase.</p>
+            <button type="button" class="btn btn--outline" @click="clearProductFilters">
+              Clear filters
+              <Icon name="close" :size="14" />
+            </button>
           </div>
 
           <div class="shop__footer">
@@ -459,7 +486,7 @@ function subscribe() {
               </div>
             </div>
 
-            <button type="button" class="btn btn--primary" @click="scrollToNewsletter">
+            <button type="button" class="btn btn--primary" @click="scrollToFooterNewsletter">
               Join the Glow Club
               <Icon name="arrowRight" :size="16" />
             </button>
@@ -581,51 +608,6 @@ function subscribe() {
               </span>
             </a>
           </div>
-        </div>
-      </section>
-
-      <section id="newsletter" class="newsletter" aria-labelledby="newsletter-title">
-        <span class="newsletter__word" aria-hidden="true">GLOW</span>
-        <SunMark :size="120" class="newsletter__sun" />
-        <div class="container newsletter__inner" v-reveal>
-          <span class="eyebrow eyebrow--plain">Letters from the atelier</span>
-          <h2 id="newsletter-title">Stay in the <em>glow.</em></h2>
-          <p class="newsletter__lede">
-            New drops, studio notes and small-batch invitations. Join the list and enjoy 10% off
-            your first order.
-          </p>
-
-          <form class="newsletter__form" novalidate @submit.prevent="subscribe">
-            <label class="sr-only" for="newsletter-email">Email address</label>
-            <input
-              id="newsletter-email"
-              v-model="newsletterEmail"
-              type="email"
-              autocomplete="email"
-              placeholder="Your email address"
-              :aria-invalid="newsletterState === 'error'"
-              :aria-describedby="newsletterMessage ? 'newsletter-message' : undefined"
-            />
-            <button type="submit" class="btn btn--primary">
-              Subscribe
-              <Icon name="arrowRight" :size="15" />
-            </button>
-          </form>
-
-          <p
-            v-if="newsletterMessage"
-            id="newsletter-message"
-            class="newsletter__message"
-            :class="`is-${newsletterState}`"
-            :role="newsletterState === 'error' ? 'alert' : 'status'"
-          >
-            {{ newsletterMessage }}
-          </p>
-
-          <p class="newsletter__fineprint">
-            No noise, only the good stuff. Unsubscribe anytime. By joining you agree to our privacy
-            note.
-          </p>
         </div>
       </section>
   </div>
@@ -1185,6 +1167,64 @@ function subscribe() {
   color: rgba(255, 253, 248, 0.6);
 }
 
+.shop__toolbar-end {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 17px;
+}
+
+.shop__search {
+  display: flex;
+  min-height: 38px;
+  width: 248px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--cream-soft);
+  transition: border-color 200ms ease;
+}
+
+.shop__search:focus-within {
+  border-color: var(--sage);
+}
+
+.shop__search > :deep(svg) {
+  flex-shrink: 0;
+  color: var(--sage-deep);
+}
+
+.shop__search input {
+  width: 100%;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 9px;
+}
+
+.shop__search input::placeholder {
+  color: var(--ink-faint);
+}
+
+.shop__search button {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ink-faint);
+}
+
+.shop__search button:hover {
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+
 .shop__note {
   display: flex;
   flex-shrink: 0;
@@ -1224,6 +1264,41 @@ function subscribe() {
 
 .shop__footer-note {
   text-align: right;
+}
+
+.shop__empty {
+  display: flex;
+  min-height: 320px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 21px;
+  padding: 40px 24px;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: var(--cream-soft);
+  text-align: center;
+}
+
+.shop__empty :deep(svg) {
+  color: var(--rose);
+}
+
+.shop__empty h3 {
+  margin-top: 16px;
+  font-size: 2rem;
+}
+
+.shop__empty p {
+  max-width: 360px;
+  margin-top: 7px;
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.shop__empty .btn {
+  margin-top: 20px;
 }
 
 /* Ritual */
@@ -2316,128 +2391,6 @@ function subscribe() {
   transform: translateY(0);
 }
 
-/* Newsletter */
-.newsletter {
-  position: relative;
-  overflow: hidden;
-  padding-block: clamp(74px, 9vw, 124px);
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255, 253, 248, 0.55), transparent 42%),
-    var(--sand);
-}
-
-.newsletter__word {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  color: transparent;
-  font-family: var(--font-display);
-  font-size: clamp(12rem, 34vw, 34rem);
-  font-weight: 400;
-  letter-spacing: 0.03em;
-  line-height: 0.7;
-  opacity: 0.26;
-  transform: translate(-50%, -50%);
-  -webkit-text-stroke: 1px rgba(83, 97, 72, 0.13);
-  pointer-events: none;
-}
-
-.newsletter__sun {
-  position: absolute;
-  top: 12%;
-  right: 8%;
-  color: var(--rose-deep);
-  opacity: 0.3;
-}
-
-.newsletter__inner {
-  position: relative;
-  z-index: 1;
-  max-width: 650px;
-  text-align: center;
-}
-
-.newsletter__inner .eyebrow {
-  justify-content: center;
-}
-
-.newsletter__inner h2 {
-  margin-top: 13px;
-  font-size: clamp(3.7rem, 6.8vw, 6.2rem);
-}
-
-.newsletter__inner h2 em {
-  color: var(--sage-deep);
-}
-
-.newsletter__lede {
-  max-width: 430px;
-  margin: 18px auto 0;
-  color: var(--ink-soft);
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-.newsletter__form {
-  display: flex;
-  max-width: 510px;
-  align-items: center;
-  gap: 5px;
-  margin: 28px auto 0;
-  padding: 5px;
-  border: 1px solid rgba(57, 71, 51, 0.18);
-  border-radius: 7px;
-  background: rgba(255, 253, 248, 0.8);
-  box-shadow: 0 18px 40px -34px rgba(47, 55, 44, 0.45);
-}
-
-.newsletter__form input {
-  width: 100%;
-  min-height: 46px;
-  padding: 0 13px;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  font-size: 10.5px;
-}
-
-.newsletter__form input::placeholder {
-  color: var(--ink-faint);
-  opacity: 0.8;
-}
-
-.newsletter__form input[aria-invalid='true'] {
-  color: #924c3b;
-}
-
-.newsletter__form .btn {
-  flex-shrink: 0;
-  min-height: 46px;
-}
-
-.newsletter__message {
-  max-width: 450px;
-  margin: 12px auto 0;
-  font-size: 9.5px;
-  line-height: 1.6;
-}
-
-.newsletter__message.is-error {
-  color: #8e4a39;
-}
-
-.newsletter__message.is-success {
-  color: var(--sage-deep);
-}
-
-.newsletter__fineprint {
-  margin-top: 15px;
-  color: var(--ink-faint);
-  font-size: 7.5px;
-  letter-spacing: 0.02em;
-  line-height: 1.7;
-}
-
 /* Toast */
 .toast {
   position: fixed;
@@ -2723,6 +2676,21 @@ function subscribe() {
     flex-shrink: 0;
   }
 
+  .shop__toolbar-end {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .shop__search {
+    width: 100%;
+  }
+
+  .shop__note {
+    display: none;
+  }
+
   .product-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -2815,20 +2783,6 @@ function subscribe() {
     gap: 16px;
   }
 
-  .newsletter__form {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 7px;
-  }
-
-  .newsletter__form input {
-    min-height: 43px;
-    text-align: center;
-  }
-
-  .newsletter__form .btn {
-    width: 100%;
-  }
 }
 
 @media (max-width: 480px) {

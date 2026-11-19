@@ -180,8 +180,11 @@ All non-home pages reuse the same shell and rhythm:
 - **Shop filters**: category changes update the query string without resetting scroll position. Moving between pages still scrolls to the top (or to the requested hash).
 - **Reading pages**: 710px max text column, 11–12px/1.85 body copy, numbered H2s, sticky table of contents at 230px. On mobile the table of contents collapses and the text becomes single-column.
 - **FAQ**: two-column layout with sticky search/category rail, accordion rows built on native `<details>`, and the first answer open by default.
-- **Shop**: PageHero → filter/sort toolbar → product grid → closing CTA. Filter state lives in the query string so a filtered collection can be shared.
+- **Shop**: PageHero → search/filter/sort toolbar → product grid → closing CTA. Filter state lives in the query string so a filtered collection can be shared; keyword search is shared by the homepage module and the full Shop page.
 - **Product**: breadcrumb strip, sticky two-column gallery/purchase panel, ritual strip, review panel, related products, closing CTA.
+- **Reviews**: product summary with rating breakdown, star-filter buttons, review cards and a validated review form. Filters stay local to the page; the form is explicitly marked as a demo.
+- **Cart / checkout**: full-bag page with sticky summary, then a payment page with address, shipping and payment sections. The checkout is a demo, labels card fields as demo-only and clears the bag after the demo confirmation.
+- **Newsletter**: the subscription form lives inside the footer, not as a standalone page section. It uses a compact inline field, explicit validation and a local success state.
 - **Journal**: large cover feature + archive grid + quote card; articles use a 710px reading column with a sticky TOC and “read next” module.
 - **Contact / legal forms**: visible labels, inline errors, local success states clearly marked as demo interactions where no server exists.
 
@@ -192,23 +195,25 @@ All non-home pages reuse the same shell and rhythm:
 Built:
 
 1. Homepage
-2. Shop / category listing with filters and sorting
+2. Shop / category listing with search, filters and sorting
 3. Product detail
-4. About / atelier story
-5. FAQ (searchable, category-filtered)
-6. Contact & studio information
-7. Journal index + article template
-8. Privacy Policy
-9. Terms of Service
-10. Shipping & Returns
-11. Custom 404
+4. Product reviews and review form
+5. Cart
+6. Checkout / payment (demo)
+7. About / atelier story
+8. FAQ (searchable, category-filtered)
+9. Contact & studio information
+10. Journal index + article template
+11. Privacy Policy
+12. Terms of Service
+13. Shipping & Returns
+14. Custom 404
 
 Next:
 
-1. Dedicated cart page
-2. Checkout and order confirmation
-3. Account + Glow Club dashboard
-4. Wishlist page
-5. Studio booking page with calendar and service detail
-6. Search results page
-7. Legal review and final cookie-consent integration
+1. Account + Glow Club dashboard
+2. Wishlist page
+3. Studio booking page with calendar and service detail
+4. Search results page
+5. Legal review and final cookie-consent integration
+6. Real payment, order and email integration

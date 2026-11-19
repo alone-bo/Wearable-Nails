@@ -16,6 +16,12 @@ const routes = [
     meta: { title: 'Shop the collection — YOUGLOW' },
   },
   {
+    path: '/product/:slug/reviews',
+    name: 'product-reviews',
+    component: () => import('./pages/ReviewsPage.vue'),
+    meta: { title: 'Product reviews — YOUGLOW' },
+  },
+  {
     path: '/product/:slug',
     name: 'product',
     component: () => import('./pages/ProductPage.vue'),
@@ -26,6 +32,19 @@ const routes = [
     name: 'about',
     component: () => import('./pages/AboutPage.vue'),
     meta: { title: 'About YOUGLOW — Our atelier & story' },
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import('./pages/CartPage.vue'),
+    meta: { title: 'Shopping bag — YOUGLOW' },
+  },
+  {
+    path: '/checkout',
+    alias: '/payment',
+    name: 'checkout',
+    component: () => import('./pages/CheckoutPage.vue'),
+    meta: { title: 'Checkout — YOUGLOW' },
   },
   {
     path: '/faq',

@@ -12,7 +12,7 @@ const props = defineProps({
   count: { type: Number, default: 0 },
 })
 
-const emit = defineEmits(['close', 'update-qty', 'remove', 'checkout', 'browse'])
+const emit = defineEmits(['close', 'update-qty', 'remove', 'checkout', 'browse', 'view-cart'])
 
 const threshold = 350
 const remaining = computed(() => Math.max(0, threshold - props.subtotal))
@@ -112,6 +112,11 @@ function money(value) {
         </button>
 
         <button type="button" class="cart__continue" @click="emit('close')">Continue shopping</button>
+
+        <button type="button" class="cart__view" @click="emit('view-cart')">
+          View full bag
+          <Icon name="arrowUpRight" :size="12" />
+        </button>
 
         <div class="cart__assurance">
           <span><Icon name="shield" :size="14" /> Secure checkout</span>
@@ -418,6 +423,25 @@ function money(value) {
 
 .cart__continue:hover {
   color: var(--ink);
+}
+
+.cart__view {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding-block: 3px 4px;
+  color: var(--sage-deep);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: gap 200ms ease;
+}
+
+.cart__view:hover {
+  gap: 9px;
 }
 
 .cart__assurance {

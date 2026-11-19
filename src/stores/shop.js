@@ -114,6 +114,10 @@ function removeFromCart(id) {
   cart.value = cart.value.filter((line) => line.id !== id)
 }
 
+function clearCart() {
+  cart.value = []
+}
+
 function toggleWishlist(product) {
   const index = wishlist.value.indexOf(product.id)
   if (index >= 0) {
@@ -123,13 +127,6 @@ function toggleWishlist(product) {
     wishlist.value.push(product.id)
     showToast(`${product.name} saved to your wishlist.`)
   }
-}
-
-function checkout() {
-  cartOpen.value = false
-  window.setTimeout(() => {
-    showToast('Demo storefront — checkout is not connected yet.')
-  }, 240)
 }
 
 export function useShop() {
@@ -157,7 +154,7 @@ export function useShop() {
     addFromQuick,
     updateQty,
     removeFromCart,
+    clearCart,
     toggleWishlist,
-    checkout,
   }
 }

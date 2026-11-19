@@ -5,8 +5,10 @@ import Icon from '../components/Icon.vue'
 import PageCta from '../components/PageCta.vue'
 import PageHero from '../components/PageHero.vue'
 import ProductCard from '../components/ProductCard.vue'
+import SunMark from '../components/SunMark.vue'
 import { categories, products } from '../data/products.js'
 import { useShop } from '../stores/shop.js'
+import { matchesProductQuery } from '../utils/productSearch.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,6 +16,7 @@ const { wishlist, addToCart, openQuick, openBooking, toggleWishlist } = useShop(
 
 const validCategories = ['all', 'press-on', 'care', 'sets']
 const activeCategory = ref(validCategories.includes(route.query.category) ? route.query.category : 'all')
+const searchQuery = ref(typeof route.query.q === 'string' ? route.query.q : '')
 const sortBy = ref('featured')
 
 watch(
@@ -29,10 +32,12 @@ const filteredProducts = computed(() => {
       ? [...products]
       : products.filter((product) => product.category === activeCategory.value)
 
-  if (sortBy.value === 'price-asc') return base.sort((a, b) => a.price - b.price)
-  if (sortBy.value === 'price-desc') return base.sort((a, b) => b.price - a.price)
-  if (sortBy.value === 'rating') return base.sort((a, b) => b.rating - a.rating)
-  return base
+  const searched = base.filter((product) => matchesProductQuery(product, searchQuery.value))
+
+  if (sortBy.value === 'price-asc') return searched.sort((a, b) => a.price - b.price)
+  if (sortBy.value === 'price-desc') return searched.sort((a, b) => b.price - a.price)
+  if (sortBy.value === 'rating') return searched.sort((a, b) => b.rating - a.rating)
+  return searched
 })
 
 const activeLabel = computed(
@@ -49,6 +54,12 @@ function selectCategory(id) {
 
 function categoryCount(id) {
   return id === 'all' ? products.length : products.filter((product) => product.category === id).length
+}
+
+function clearFilters() {
+  activeCategory.value = 'all'
+  searchQuery.value = ''
+  router.replace({ path: '/shop' })
 }
 </script>
 
@@ -98,19 +109,40 @@ function categoryCount(id) {
             </button>
           </div>
 
-          <label class="catalog__sort">
-            <span>Sort by</span>
-            <select v-model="sortBy">
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price · low to high</option>
-              <option value="price-desc">Price · high to low</option>
-              <option value="rating">Highest rated</option>
-            </select>
-            <Icon name="chevronDown" :size="13" />
-          </label>
+          <div class="catalog__control-end">
+            <div class="catalog__search">
+              <Icon name="search" :size="16" />
+              <label class="sr-only" for="shop-product-search">Search the collection</label>
+              <input
+                id="shop-product-search"
+                v-model="searchQuery"
+                type="search"
+                placeholder="Search sets, shades, care…"
+              />
+              <button
+                v-if="searchQuery"
+                type="button"
+                aria-label="Clear product search"
+                @click="searchQuery = ''"
+              >
+                <Icon name="close" :size="14" />
+              </button>
+            </div>
+
+            <label class="catalog__sort">
+              <span>Sort by</span>
+              <select v-model="sortBy">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price · low to high</option>
+                <option value="price-desc">Price · high to low</option>
+                <option value="rating">Highest rated</option>
+              </select>
+              <Icon name="chevronDown" :size="13" />
+            </label>
+          </div>
         </div>
 
-        <div class="catalog__grid product-grid" aria-live="polite">
+        <div v-if="filteredProducts.length" class="catalog__grid product-grid" aria-live="polite">
           <ProductCard
             v-for="(product, index) in filteredProducts"
             :key="product.id"
@@ -121,6 +153,16 @@ function categoryCount(id) {
             @quick-view="openQuick"
             @toggle-wishlist="toggleWishlist"
           />
+        </div>
+
+        <div v-else class="catalog__empty" role="status">
+          <SunMark :size="44" />
+          <h3>No pieces matched that search.</h3>
+          <p>Try a different shade, product type or a shorter phrase.</p>
+          <button type="button" class="btn btn--outline" @click="clearFilters">
+            Clear all filters
+            <Icon name="close" :size="14" />
+          </button>
         </div>
 
         <div class="catalog__foot">
@@ -269,6 +311,99 @@ function categoryCount(id) {
   color: rgba(255, 253, 248, 0.65);
 }
 
+.catalog__control-end {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.catalog__search {
+  display: flex;
+  min-height: 40px;
+  width: 250px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid var(--line-soft);
+  border-radius: 5px;
+  background: var(--cream-soft);
+  transition: border-color 200ms ease;
+}
+
+.catalog__search:focus-within {
+  border-color: var(--sage);
+}
+
+.catalog__search > :deep(svg) {
+  flex-shrink: 0;
+  color: var(--sage-deep);
+}
+
+.catalog__search input {
+  width: 100%;
+  min-height: 38px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 9px;
+}
+
+.catalog__search input::placeholder {
+  color: var(--ink-faint);
+}
+
+.catalog__search button {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ink-faint);
+}
+
+.catalog__search button:hover {
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+
+.catalog__empty {
+  display: flex;
+  min-height: 340px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 21px;
+  padding: 40px 24px;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: var(--cream-soft);
+  text-align: center;
+}
+
+.catalog__empty :deep(svg) {
+  color: var(--rose);
+}
+
+.catalog__empty h3 {
+  margin-top: 16px;
+  font-size: 2rem;
+}
+
+.catalog__empty p {
+  max-width: 360px;
+  margin-top: 7px;
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.catalog__empty .btn {
+  margin-top: 20px;
+}
+
 .catalog__sort {
   display: flex;
   min-height: 40px;
@@ -350,6 +485,17 @@ function categoryCount(id) {
     align-items: flex-start;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .catalog__control-end {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .catalog__search {
+    width: 100%;
   }
 
   .catalog__filters {

@@ -97,7 +97,7 @@ function goToProduct(item) {
               <Icon v-for="star in 5" :key="star" name="star" :size="13" />
             </span>
             <span>{{ product.rating.toFixed(1) }} · {{ product.reviews }} reviews</span>
-            <a href="#product-reviews">Read the notes</a>
+            <RouterLink :to="`/product/${product.id}/reviews`">Read all reviews</RouterLink>
           </div>
 
           <div class="product-info__price">
@@ -232,6 +232,10 @@ function goToProduct(item) {
                 <Icon v-for="star in 5" :key="star" name="star" :size="13" />
               </span>
               <p>{{ product.reviews }} verified reviews</p>
+              <RouterLink :to="`/product/${product.id}/reviews`" class="product-reviews__all">
+                Read all reviews
+                <Icon name="arrowRight" :size="13" />
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -847,6 +851,28 @@ function goToProduct(item) {
   margin-top: 4px;
   color: rgba(247, 242, 233, 0.95);
   font-size: 8px;
+}
+
+.product-reviews__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--line-light);
+  color: var(--cream);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    gap 200ms ease,
+    border-color 200ms ease;
+}
+
+.product-reviews__all:hover {
+  gap: 10px;
+  border-color: var(--cream);
 }
 
 .product-review {
