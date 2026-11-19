@@ -319,7 +319,7 @@ function submit() {
 
 .booking__aside > div > p {
   margin-top: 20px;
-  color: rgba(247, 242, 233, 0.68);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 11.5px;
   line-height: 1.8;
 }
@@ -329,7 +329,7 @@ function submit() {
   margin-top: 40px;
   padding-top: 24px;
   border-top: 1px solid var(--line-light);
-  color: rgba(247, 242, 233, 0.66);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 10px;
   line-height: 1.8;
 }
@@ -342,7 +342,7 @@ function submit() {
 }
 
 .booking__hours span {
-  color: rgba(247, 242, 233, 0.52);
+  color: rgba(247, 242, 233, 0.94);
   font-size: 8px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -366,7 +366,7 @@ function submit() {
 }
 
 .booking__phone:hover {
-  color: var(--rose-light);
+  color: var(--white);
 }
 
 .booking__sun {
@@ -634,7 +634,7 @@ function submit() {
 }
 
 .booking__success h2 em {
-  color: var(--sage-deep);
+  color: var(--sage);
 }
 
 .booking__success > p {

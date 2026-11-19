@@ -4,11 +4,12 @@
   --cream-deep: #efe7da;
   --sand: #ebdfcd;
   --sand-deep: #ddcbb4;
-  --sage: #7d8e6e;
-  --sage-deep: #536148;
-  --sage-dark: #394733;
-  --sage-wash: #e7e9dd;
-  --sage-soft: #aab59c;
+  --sage: #7c8e67;
+  --sage-deep: #616e54;
+  --sage-dark: #616e54;
+  --sage-wash: #e9ebe0;
+  --sage-soft: #a8b398;
+  --sage-press: #4f5a44;
   --rose: #bf8d76;
   --rose-light: #e5c8b8;
   --rose-deep: #925e4a;
@@ -61,7 +62,7 @@ body.modal-open {
 }
 
 ::selection {
-  background: var(--sage);
+  background: var(--sage-deep);
   color: var(--white);
 }
 
@@ -214,7 +215,7 @@ svg {
 }
 
 .eyebrow--light {
-  color: rgba(247, 242, 233, 0.78);
+  color: rgba(247, 242, 233, 0.94);
 }
 
 .section-head {
@@ -234,7 +235,7 @@ svg {
 }
 
 .section-head h2 em {
-  color: var(--sage-deep);
+  color: var(--sage);
 }
 
 .section-head__lede {
@@ -287,7 +288,7 @@ svg {
 }
 
 .btn--primary:hover {
-  background: var(--sage-dark);
+  background: var(--sage-press);
 }
 
 .btn--outline {

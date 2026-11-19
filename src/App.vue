@@ -547,11 +547,11 @@ onBeforeUnmount(() => {
               </p>
 
               <div class="campaign__swatches">
-                <span style="background: #75846a" />
+                <span style="background: #7c8e67" />
                 <span style="background: #9ca990" />
                 <span style="background: #efe8d8" />
                 <span style="background: #c69a82" />
-                <span style="background: #5f7055" />
+                <span style="background: #616e54" />
                 <small>5 shades · 24 tips</small>
               </div>
 
@@ -884,7 +884,7 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: rgba(247, 242, 233, 0.64);
+  color: rgba(247, 242, 233, 0.95);
 }
 
 .announcement__left :deep(svg) {
@@ -892,7 +892,7 @@ onBeforeUnmount(() => {
 }
 
 .announcement__center {
-  color: rgba(247, 242, 233, 0.9);
+  color: var(--cream);
   text-align: center;
 }
 
@@ -906,7 +906,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: flex-end;
   gap: 9px;
-  color: rgba(247, 242, 233, 0.72);
+  color: rgba(247, 242, 233, 0.95);
 }
 
 .announcement__right a {
@@ -981,7 +981,7 @@ onBeforeUnmount(() => {
 .hero__title em {
   display: block;
   margin-left: clamp(10px, 4vw, 60px);
-  color: var(--sage-deep);
+  color: var(--sage);
   font-family: var(--font-display);
   font-size: 0.98em;
   font-weight: 300;
@@ -1739,7 +1739,7 @@ onBeforeUnmount(() => {
   bottom: 18px;
   left: 20px;
   z-index: 2;
-  color: rgba(247, 242, 233, 0.76);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 7.5px;
   letter-spacing: 0.08em;
 }
@@ -1756,7 +1756,7 @@ onBeforeUnmount(() => {
 .studio__lede {
   max-width: 480px;
   margin-top: 21px;
-  color: rgba(247, 242, 233, 0.63);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 12.5px;
   line-height: 1.9;
 }
@@ -1805,13 +1805,13 @@ onBeforeUnmount(() => {
 }
 
 .service-row__copy small {
-  color: rgba(247, 242, 233, 0.66);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 8.5px;
   line-height: 1.4;
 }
 
 .service-row__price {
-  color: rgba(247, 242, 233, 0.74);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 8.5px;
   letter-spacing: 0.04em;
 }
@@ -1938,7 +1938,7 @@ onBeforeUnmount(() => {
 }
 
 .campaign__copy h2 em {
-  color: var(--sage-deep);
+  color: var(--sage);
 }
 
 .campaign__copy > p {
@@ -2009,7 +2009,7 @@ onBeforeUnmount(() => {
   padding-block: clamp(72px, 8vw, 118px);
   background:
     radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.08), transparent 30%),
-    #617152;
+    var(--sage-deep);
   color: var(--cream);
 }
 
@@ -2053,7 +2053,7 @@ onBeforeUnmount(() => {
 
 .testimonials__summary p {
   margin-top: 5px;
-  color: rgba(247, 242, 233, 0.82);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 8px;
   letter-spacing: 0.04em;
 }
@@ -2233,7 +2233,7 @@ onBeforeUnmount(() => {
 }
 
 .member-card__top > span {
-  color: rgba(247, 242, 233, 0.46);
+  color: rgba(247, 242, 233, 0.94);
   font-size: 7px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -2241,7 +2241,7 @@ onBeforeUnmount(() => {
 
 .member-card__name {
   margin-top: 29px;
-  color: rgba(247, 242, 233, 0.78);
+  color: rgba(247, 242, 233, 0.96);
   font-family: var(--font-display);
   font-size: 1.55rem;
   line-height: 1.1;
@@ -2267,7 +2267,7 @@ onBeforeUnmount(() => {
 }
 
 .member-card__points span {
-  color: rgba(247, 242, 233, 0.48);
+  color: rgba(247, 242, 233, 0.94);
   font-size: 8px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -2291,7 +2291,7 @@ onBeforeUnmount(() => {
 
 .member-card__next {
   margin-top: 9px;
-  color: rgba(247, 242, 233, 0.5);
+  color: rgba(247, 242, 233, 0.94);
   font-size: 7.5px;
   line-height: 1.5;
 }
@@ -2303,7 +2303,7 @@ onBeforeUnmount(() => {
   margin-top: 31px;
   padding-top: 15px;
   border-top: 1px solid var(--line-light);
-  color: rgba(247, 242, 233, 0.35);
+  color: rgba(247, 242, 233, 0.94);
   font-size: 6.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -2477,7 +2477,7 @@ onBeforeUnmount(() => {
 }
 
 .gallery__head h2 em {
-  color: var(--sage-deep);
+  color: var(--sage);
 }
 
 .gallery__grid {
@@ -2676,7 +2676,7 @@ onBeforeUnmount(() => {
   padding: 13px 17px;
   border: 1px solid rgba(247, 242, 233, 0.16);
   border-radius: 6px;
-  background: rgba(57, 71, 51, 0.96);
+  background: rgba(97, 110, 84, 0.97);
   color: var(--cream);
   box-shadow: 0 18px 40px -20px rgba(20, 27, 18, 0.7);
   font-size: 9.5px;

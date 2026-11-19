@@ -138,17 +138,16 @@ const emit = defineEmits(['open-booking'])
 .footer__tagline {
   max-width: 340px;
   margin-top: 22px;
-  color: rgba(247, 242, 233, 0.63);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 12px;
   line-height: 1.8;
 }
 
 .footer__arabic {
   margin-top: 14px;
-  color: var(--rose-light);
+  color: rgba(247, 242, 233, 0.94);
   font-family: 'Segoe UI', Tahoma, sans-serif;
   font-size: 12px;
-  opacity: 0.65;
 }
 
 .footer__book {
@@ -173,7 +172,7 @@ const emit = defineEmits(['open-booking'])
 .footer__book:hover {
   gap: 18px;
   border-color: var(--cream);
-  color: var(--rose-light);
+  color: var(--white);
 }
 
 .footer__columns {
@@ -191,7 +190,7 @@ const emit = defineEmits(['open-booking'])
 
 .footer__column h3 {
   margin-bottom: 9px;
-  color: rgba(247, 242, 233, 0.62);
+  color: rgba(247, 242, 233, 0.94);
   font-family: var(--font-sans);
   font-size: 8.5px;
   font-weight: 500;
@@ -203,7 +202,7 @@ const emit = defineEmits(['open-booking'])
 .footer__column a,
 .footer__column address,
 .footer__hours {
-  color: rgba(247, 242, 233, 0.76);
+  color: rgba(247, 242, 233, 0.96);
   font-size: 11px;
   font-style: normal;
   line-height: 1.65;
@@ -224,7 +223,7 @@ const emit = defineEmits(['open-booking'])
 
 .footer__hours {
   margin-top: 4px;
-  color: rgba(247, 242, 233, 0.62) !important;
+  color: rgba(247, 242, 233, 0.94) !important;
   font-size: 9px !important;
 }
 
@@ -263,7 +262,7 @@ const emit = defineEmits(['open-booking'])
 
 .footer__socials span {
   margin-left: 8px;
-  color: rgba(247, 242, 233, 0.66);
+  color: rgba(247, 242, 233, 0.94);
   font-size: 9px;
   letter-spacing: 0.06em;
 }
@@ -278,7 +277,7 @@ const emit = defineEmits(['open-booking'])
   padding: 5px 8px;
   border: 1px solid var(--line-light);
   border-radius: 3px;
-  color: rgba(247, 242, 233, 0.66);
+  color: rgba(247, 242, 233, 0.94);
   font-size: 7px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -291,7 +290,7 @@ const emit = defineEmits(['open-booking'])
   gap: 24px;
   padding-top: 20px;
   border-top: 1px solid var(--line-light);
-  color: rgba(247, 242, 233, 0.64);
+  color: rgba(247, 242, 233, 0.94);
   font-size: 9px;
   letter-spacing: 0.03em;
 }

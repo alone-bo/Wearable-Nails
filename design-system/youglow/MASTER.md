@@ -39,11 +39,12 @@ A sunlit atelier on the Casablanca Corniche: warm stone, olive branches, polishe
 | `--cream-deep` | `#EFE7DA` | Quiet section grounds |
 | `--sand` | `#EBDFCD` | Campaign/newsletter |
 | `--sand-deep` | `#DDCBB4` | Borders, decorative rules |
-| `--sage` | `#7D8E6E` | Botanical fills, image overlays |
-| `--sage-soft` | `#AAB59C` | Secondary natural accents |
-| `--sage-wash` | `#E7E9DD` | Loyalty / benefit bands |
-| `--sage-deep` | `#536148` | Primary actions, display accents |
-| `--sage-dark` | `#394733` | Studio and footer grounds |
+| `--sage` | `#7C8E67` | Light brand green — large display accents, botanical surfaces |
+| `--sage-soft` | `#A8B398` | Soft botanical tint |
+| `--sage-wash` | `#E9EBE0` | Loyalty / benefit bands |
+| `--sage-deep` | `#616E54` | Dark brand green — primary actions, dark section grounds |
+| `--sage-dark` | `#616E54` | Alias of the dark brand green |
+| `--sage-press` | `#4F5A44` | Hover/pressed interaction shade |
 | `--rose` | `#BF8D76` | Rose-gold rules, seals, stars |
 | `--rose-light` | `#E5C8B8` | Rose accents on dark grounds |
 | `--rose-deep` | `#925E4A` | Accessible rose text accent |
@@ -54,10 +55,12 @@ A sunlit atelier on the Casablanca Corniche: warm stone, olive branches, polishe
 
 Rules:
 
+- The brand is built on two greens: light `#7C8E67` and dark `#616E54`. Use the light green for large italic display accents and botanical surfaces, and the dark green for primary actions and dark grounds.
 - Primary CTA background is `--sage-deep`, never `--sage` (contrast).
+- Light green is a display/accent color, not body copy: it sits around 3.2:1 against cream, so use it only for large display text or decorative surfaces; small text must use a darker token.
 - Rose gold is decorative. For rose text on cream use `--rose-deep` at 12px+.
-- On dark sage, secondary cream text must remain at least `rgba(247,242,233,.72)`.
-- Do not place body copy directly on `--sage`; use cream cards or darken the ground to `#617152`.
+- On `#616E54`, keep secondary cream text at `rgba(247,242,233,.94)` or higher so small copy stays above 4.5:1. Build hierarchy with size and weight rather than opacity.
+- Do not place body copy directly on `--sage`; use cream cards or switch the ground to `--sage-deep`.
 
 ---
 

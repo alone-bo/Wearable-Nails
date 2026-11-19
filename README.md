@@ -84,9 +84,10 @@ design-system/youglow/MASTER.md
 | `--cream` | `#F7F2E9` | Primary page background |
 | `--cream-soft` | `#FBF7F0` | Cards and raised surfaces |
 | `--sand` | `#EBDFCD` | Campaign and newsletter bands |
-| `--sage` | `#7D8E6E` | Botanical accent |
-| `--sage-deep` | `#536148` | Primary CTA and display accents |
-| `--sage-dark` | `#394733` | Studio and footer grounds |
+| `--sage` | `#7C8E67` | Light green — large display accents, botanical surfaces |
+| `--sage-deep` | `#616E54` | Dark green — primary CTA and dark section grounds |
+| `--sage-dark` | `#616E54` | Alias of the dark brand green |
+| `--sage-press` | `#4F5A44` | Hover/pressed interaction shade |
 | `--rose` | `#BF8D76` | Rose-gold decorative accent |
 | `--rose-deep` | `#925E4A` | Accessible rose text accent |
 | `--ink` | `#2F372C` | Primary text |
