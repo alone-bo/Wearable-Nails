@@ -48,6 +48,7 @@ The test suite covers desktop navigation, product search and filters, quick view
 - Instant product search on both the homepage shop module and the full Shop page
 - Product detail pages with quantity, wishlist, add-to-bag, accordions and related products
 - Full product reviews pages with rating breakdown, rating filters and a validated demo review form
+- Buyer photo uploads in the review form: up to four JPG/PNG/WebP images, 5MB each, with local previews, removal and confirmation gallery
 - Full cart page and checkout / payment page with delivery and payment options
 - Shared shopping bag drawer: quantity updates, remove, free-delivery progress, subtotal
 - Newsletter subscription integrated directly beneath the footer logo, with no separate marketing copy block
@@ -73,6 +74,7 @@ This is a **front-end storefront demo**, not a production commerce integration:
 
 - Checkout and payment are not connected to a payment provider. The order button deliberately shows a demo confirmation and no payment is taken.
 - Appointment requests, contact messages, product reviews and newsletter subscriptions are validated in the browser and show local success states; nothing is sent to a server.
+- Buyer review photos are previewed locally with object URLs. They are never uploaded or persisted and are released when the page is left.
 - Privacy, Terms and Shipping & Returns are **demonstration templates**, not legal advice. They are marked as templates in the UI and should be reviewed by a qualified professional before launch.
 - Product imagery is demo stock photography, not final brand photography.
 

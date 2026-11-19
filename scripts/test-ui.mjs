@@ -165,9 +165,13 @@ await page.waitForTimeout(300)
 await page.locator('#review-name').fill('Amira Test')
 await page.locator('#review-title').fill('A considered set')
 await page.locator('#review-body').fill('The fit was lovely and the colour wore beautifully for a full week.')
+await page.locator('#review-photos').setInputFiles('public/images/gallery-care.webp')
+await page.waitForTimeout(250)
+assert((await page.locator('.review-photo').count()) === 1, 'buyer photo upload creates a preview')
 await page.getByRole('button', { name: 'Submit review' }).click()
 await page.waitForTimeout(250)
 assert(await page.locator('.review-success').isVisible(), 'review form success state renders')
+assert((await page.locator('.review-success__photos img').count()) === 1, 'uploaded buyer photo is shown in the review confirmation')
 
 // Search → quick view
 await page.getByRole('button', { name: 'Search the shop' }).click()

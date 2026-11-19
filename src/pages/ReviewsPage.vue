@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, onBeforeUnmount, ref, watchEffect } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import Icon from '../components/Icon.vue'
 import PageCta from '../components/PageCta.vue'
@@ -26,8 +26,60 @@ const reviewRating = ref(5)
 const reviewName = ref('')
 const reviewTitle = ref('')
 const reviewBody = ref('')
+const reviewPhotos = ref([])
+const photoError = ref('')
 const errors = ref({})
 const submitted = ref(false)
+const MAX_PHOTOS = 4
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024
+const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+let photoId = 0
+
+function addPhotos(event) {
+  const files = Array.from(event.target.files || [])
+  const next = [...reviewPhotos.value]
+  let message = ''
+
+  for (const file of files) {
+    if (next.length >= MAX_PHOTOS) {
+      message = `You can add up to ${MAX_PHOTOS} photos.`
+      break
+    }
+    if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+      message = 'Please use a JPG, PNG or WebP image.'
+      continue
+    }
+    if (file.size > MAX_PHOTO_SIZE) {
+      message = `${file.name} is larger than 5MB.`
+      continue
+    }
+
+    next.push({
+      id: `review-photo-${++photoId}`,
+      name: file.name,
+      url: URL.createObjectURL(file),
+    })
+  }
+
+  reviewPhotos.value = next
+  photoError.value = message
+  event.target.value = ''
+}
+
+function removePhoto(id) {
+  const photo = reviewPhotos.value.find((item) => item.id === id)
+  if (photo) URL.revokeObjectURL(photo.url)
+  reviewPhotos.value = reviewPhotos.value.filter((item) => item.id !== id)
+  photoError.value = ''
+}
+
+function clearPhotos() {
+  reviewPhotos.value.forEach((photo) => URL.revokeObjectURL(photo.url))
+  reviewPhotos.value = []
+  photoError.value = ''
+}
+
+onBeforeUnmount(clearPhotos)
 
 function reviewCountFor(stars) {
   return reviews.value.filter((review) => review.rating === stars).length
@@ -50,6 +102,7 @@ function writeAnother() {
   reviewName.value = ''
   reviewTitle.value = ''
   reviewBody.value = ''
+  clearPhotos()
   errors.value = {}
 }
 
@@ -219,6 +272,16 @@ watchEffect(() => {
               for moderation.
             </p>
             <p class="review-success__demo">Demo form — your review has not been published.</p>
+
+            <div v-if="reviewPhotos.length" class="review-success__photos" role="group" aria-label="Attached buyer photos">
+              <img
+                v-for="(photo, index) in reviewPhotos"
+                :key="photo.id"
+                :src="photo.url"
+                :alt="`Buyer photo ${index + 1}`"
+              />
+            </div>
+
             <button type="button" class="btn btn--outline" @click="writeAnother">Write another review</button>
           </div>
 
@@ -275,6 +338,44 @@ watchEffect(() => {
                 :aria-describedby="errors.body ? 'review-body-error' : undefined"
               />
               <p v-if="errors.body" id="review-body-error" class="field__error" role="alert">{{ errors.body }}</p>
+            </div>
+
+            <div class="review-form__photos">
+              <div class="review-form__photos-head">
+                <span>Add your photos <small>(optional)</small></span>
+                <span>{{ reviewPhotos.length }} / {{ MAX_PHOTOS }}</span>
+              </div>
+
+              <div class="review-photo-grid">
+                <figure v-for="(photo, index) in reviewPhotos" :key="photo.id" class="review-photo">
+                  <img :src="photo.url" :alt="`Buyer photo ${index + 1} preview`" />
+                  <button type="button" :aria-label="`Remove ${photo.name}`" @click="removePhoto(photo.id)">
+                    <Icon name="close" :size="12" />
+                  </button>
+                </figure>
+
+                <label v-if="reviewPhotos.length < MAX_PHOTOS" class="review-photo-upload">
+                  <input
+                    id="review-photos"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    class="sr-only"
+                    :aria-describedby="photoError ? 'review-photo-error' : 'review-photo-help'"
+                    @change="addPhotos"
+                  />
+                  <Icon name="camera" :size="22" />
+                  <span>Add photos</span>
+                  <small>JPG · PNG · WebP</small>
+                </label>
+              </div>
+
+              <p id="review-photo-help" class="review-form__photo-help">
+                Up to {{ MAX_PHOTOS }} buyer photos, max 5MB each. Demo only — images stay in your browser.
+              </p>
+              <p v-if="photoError" id="review-photo-error" class="review-form__photo-error" role="alert">
+                {{ photoError }}
+              </p>
             </div>
 
             <div class="review-form__submit">
@@ -884,6 +985,134 @@ watchEffect(() => {
   font-size: 8px;
 }
 
+.review-form__photos {
+  margin-top: 16px;
+}
+
+.review-form__photos-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  color: var(--ink-faint);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.review-form__photos-head small {
+  color: var(--ink-faint);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.review-form__photos-head > span:last-child {
+  font-size: 7.5px;
+  letter-spacing: 0.02em;
+}
+
+.review-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.review-photo {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: 5px;
+  background: var(--cream-deep);
+  aspect-ratio: 1;
+}
+
+.review-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-photo button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(47, 55, 44, 0.86);
+  color: var(--cream);
+  transition: background-color 200ms ease;
+}
+
+.review-photo button:hover {
+  background: var(--rose-deep);
+}
+
+.review-photo-upload {
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px dashed var(--line);
+  border-radius: 5px;
+  background: var(--cream);
+  color: var(--ink-soft);
+  text-align: center;
+  aspect-ratio: 1;
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.review-photo-upload:hover,
+.review-photo-upload:has(input:focus-visible) {
+  border-color: var(--sage);
+  background: var(--cream-soft);
+}
+
+.review-photo-upload:has(input:focus-visible) {
+  outline: 2px solid var(--sage-deep);
+  outline-offset: 2px;
+}
+
+.review-photo-upload :deep(svg) {
+  color: var(--sage-deep);
+}
+
+.review-photo-upload span {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.review-photo-upload small {
+  color: var(--ink-faint);
+  font-size: 6.5px;
+  line-height: 1.3;
+}
+
+.review-form__photo-help {
+  margin-top: 7px;
+  color: var(--ink-faint);
+  font-size: 7.5px;
+  line-height: 1.6;
+}
+
+.review-form__photo-error {
+  margin-top: 4px;
+  color: #924c3b;
+  font-size: 8px;
+  line-height: 1.4;
+}
+
 .review-form__submit {
   display: flex;
   align-items: center;
@@ -930,6 +1159,21 @@ watchEffect(() => {
 .review-success__demo {
   color: var(--ink-faint) !important;
   font-size: 8px !important;
+}
+
+.review-success__photos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.review-success__photos img {
+  width: 100%;
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  object-fit: cover;
+  aspect-ratio: 1;
 }
 
 .review-success .btn {
