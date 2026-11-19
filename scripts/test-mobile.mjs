@@ -2,7 +2,7 @@ import { chromium } from 'playwright-core'
 import { resolve } from 'node:path'
 
 const executablePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-const baseUrl = 'http://127.0.0.1:5173/'
+const baseUrl = 'http://127.0.0.1:5173'
 const outDir = resolve('previews')
 let checks = 0
 
@@ -39,6 +39,16 @@ await page.screenshot({ path: resolve(outDir, 'mobile-search.png') })
 await page.keyboard.press('Escape')
 await page.waitForTimeout(400)
 
+await page.getByRole('button', { name: 'Open site menu' }).click()
+await page.waitForTimeout(350)
+await page.getByRole('dialog', { name: 'Site menu' }).getByRole('link', { name: 'About' }).click()
+await page.waitForURL('**/about')
+await page.waitForTimeout(450)
+assert((await page.locator('h1').innerText()).includes('Made slowly'), 'mobile menu navigates to a routed page')
+assert(!(await page.getByRole('dialog', { name: 'Site menu' }).isVisible()), 'mobile menu closes after route navigation')
+
+await page.goto(baseUrl + '/shop', { waitUntil: 'networkidle' })
+await page.waitForTimeout(400)
 await page.getByRole('button', { name: 'Open shopping bag' }).click()
 await page.waitForTimeout(550)
 assert(await page.getByRole('dialog', { name: 'Shopping bag' }).isVisible(), 'mobile cart opens')
@@ -48,7 +58,7 @@ await page.screenshot({ path: resolve(outDir, 'mobile-cart.png') })
 await page.locator('.dialog--drawer[open] .dialog__close').click()
 await page.waitForTimeout(450)
 
-await page.locator('#shop').scrollIntoViewIfNeeded()
+await page.locator('.product-card').first().scrollIntoViewIfNeeded()
 await page.waitForTimeout(300)
 await page.getByRole('button', { name: 'View The Olive Hour' }).first().click()
 await page.waitForTimeout(600)

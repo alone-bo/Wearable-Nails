@@ -1,5 +1,6 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import BaseDialog from './BaseDialog.vue'
 import BrandLogo from './BrandLogo.vue'
 import Icon from './Icon.vue'
@@ -8,17 +9,18 @@ defineProps({
   cartCount: { type: Number, default: 0 },
 })
 
-const emit = defineEmits(['open-cart', 'open-search', 'open-booking', 'filter-category'])
+const emit = defineEmits(['open-cart', 'open-search', 'open-booking'])
 
 const scrolled = ref(false)
 const menuOpen = ref(false)
 
 const navItems = [
-  { label: 'Shop all', href: '#shop', category: 'all' },
-  { label: 'Press-ons', href: '#shop', category: 'press-on' },
-  { label: 'Nail care', href: '#shop', category: 'care' },
-  { label: 'The studio', href: '#studio' },
-  { label: 'Journal', href: '#journal' },
+  { label: 'Shop all', to: '/shop' },
+  { label: 'Press-ons', to: '/shop?category=press-on' },
+  { label: 'Nail care', to: '/shop?category=care' },
+  { label: 'About', to: '/about' },
+  { label: 'Journal', to: '/journal' },
+  { label: 'FAQ', to: '/faq' },
 ]
 
 function handleScroll() {
@@ -34,15 +36,6 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
-function handleNav(item) {
-  menuOpen.value = false
-  if (item.category) emit('filter-category', item.category)
-  const target = document.querySelector(item.href)
-  window.setTimeout(() => {
-    target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, 200)
-}
-
 function openBooking() {
   menuOpen.value = false
   window.setTimeout(() => emit('open-booking'), 280)
@@ -57,12 +50,12 @@ function openSearchFromMenu() {
 <template>
   <header class="site-header" :class="{ 'is-scrolled': scrolled }">
     <div class="site-header__inner">
-      <a href="#top" class="site-header__logo" aria-label="YOUGLOW — home">
+      <RouterLink to="/" class="site-header__logo" aria-label="YOUGLOW — home">
         <BrandLogo />
-      </a>
+      </RouterLink>
 
       <nav class="primary-nav" aria-label="Primary">
-        <a v-for="item in navItems" :key="item.label" :href="item.href" @click.prevent="handleNav(item)">{{ item.label }}</a>
+        <RouterLink v-for="item in navItems" :key="item.label" :to="item.to">{{ item.label }}</RouterLink>
       </nav>
 
       <div class="site-header__actions">
@@ -70,9 +63,13 @@ function openSearchFromMenu() {
           <Icon name="search" :size="19" />
         </button>
 
-        <a href="#glow-club" class="icon-btn header-icon header-account" aria-label="Your Glow Club rewards">
+        <RouterLink
+          to="/#glow-club"
+          class="icon-btn header-icon header-account"
+          aria-label="Your Glow Club rewards"
+        >
           <Icon name="user" :size="19" />
-        </a>
+        </RouterLink>
 
         <button type="button" class="icon-btn header-icon bag-button" aria-label="Open shopping bag" @click="emit('open-cart')">
           <Icon name="bag" :size="19" />
@@ -98,20 +95,22 @@ function openSearchFromMenu() {
     <BaseDialog :open="menuOpen" variant="drawer" label="Site menu" @close="menuOpen = false">
       <div class="mobile-menu">
         <div class="mobile-menu__head">
-          <BrandLogo />
+          <RouterLink to="/" aria-label="YOUGLOW — home" @click="menuOpen = false">
+            <BrandLogo />
+          </RouterLink>
           <p>Nail atelier · Casablanca</p>
         </div>
 
         <nav class="mobile-menu__nav" aria-label="Mobile">
-          <a
+          <RouterLink
             v-for="(item, index) in navItems"
             :key="item.label"
-            :href="item.href"
-            @click.prevent="handleNav(item)"
+            :to="item.to"
+            @click="menuOpen = false"
           >
             <span>{{ item.label }}</span>
             <small>0{{ index + 1 }}</small>
-          </a>
+          </RouterLink>
         </nav>
 
         <div class="mobile-menu__cta">
@@ -227,6 +226,15 @@ function openSearchFromMenu() {
   color: var(--sage-deep);
 }
 
+.primary-nav a.router-link-exact-active {
+  color: var(--sage-deep);
+}
+
+.primary-nav a.router-link-exact-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
 .primary-nav a:hover::after {
   transform: scaleX(1);
   transform-origin: left;
@@ -319,6 +327,10 @@ function openSearchFromMenu() {
 }
 
 .mobile-menu__nav a:hover {
+  color: var(--sage-deep);
+}
+
+.mobile-menu__nav a.router-link-exact-active {
   color: var(--sage-deep);
 }
 

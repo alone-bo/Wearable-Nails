@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from 'vue-router'
 import BrandLogo from './BrandLogo.vue'
 import Icon from './Icon.vue'
 import SunMark from './SunMark.vue'
@@ -15,9 +16,9 @@ const emit = defineEmits(['open-booking'])
     <div class="container footer__inner">
       <div class="footer__top">
         <div class="footer__brand-block">
-          <a href="#top" class="footer__brand" aria-label="YOUGLOW — back to top">
+          <RouterLink to="/" class="footer__brand" aria-label="YOUGLOW — home">
             <BrandLogo light />
-          </a>
+          </RouterLink>
           <p class="footer__tagline">
             Press-on nail rituals and slow studio care, hand-finished in Casablanca.
           </p>
@@ -32,18 +33,20 @@ const emit = defineEmits(['open-booking'])
         <div class="footer__columns">
           <div class="footer__column">
             <h3>Shop</h3>
-            <a href="#shop">Press-on sets</a>
-            <a href="#shop">Nail care</a>
-            <a href="#shop">Gift sets</a>
-            <a href="#glow-club">The Glow Club</a>
+            <RouterLink to="/shop?category=press-on">Press-on sets</RouterLink>
+            <RouterLink to="/shop?category=care">Nail care</RouterLink>
+            <RouterLink to="/shop?category=sets">Gift sets</RouterLink>
+            <RouterLink to="/#glow-club">The Glow Club</RouterLink>
           </div>
 
           <div class="footer__column">
             <h3>The atelier</h3>
-            <a href="#studio">Our studio</a>
-            <a href="#ritual">The ritual</a>
-            <a href="#journal">Journal</a>
-            <a href="#newsletter">Join the list</a>
+            <RouterLink to="/#studio">Our studio</RouterLink>
+            <RouterLink to="/about">About YOUGLOW</RouterLink>
+            <RouterLink to="/journal">Journal</RouterLink>
+            <RouterLink to="/faq">FAQ</RouterLink>
+            <RouterLink to="/contact">Contact</RouterLink>
+            <RouterLink to="/#newsletter">Join the list</RouterLink>
           </div>
 
           <div class="footer__column footer__column--visit">
@@ -84,9 +87,9 @@ const emit = defineEmits(['open-booking'])
       <div class="footer__bottom">
         <p>© 2026 YOUGLOW Nail &amp; Beauty Studio. All rights reserved.</p>
         <div class="footer__legal">
-          <span>Privacy</span>
-          <span>Terms</span>
-          <span>Shipping &amp; returns</span>
+          <RouterLink to="/privacy">Privacy</RouterLink>
+          <RouterLink to="/terms">Terms</RouterLink>
+          <RouterLink to="/shipping-returns">Shipping &amp; returns</RouterLink>
         </div>
         <p class="footer__credit">Casablanca · Morocco</p>
       </div>
@@ -298,6 +301,14 @@ const emit = defineEmits(['open-booking'])
 .footer__legal {
   display: flex;
   gap: 18px;
+}
+
+.footer__legal a {
+  transition: color 200ms ease;
+}
+
+.footer__legal a:hover {
+  color: var(--cream);
 }
 
 .footer__credit {

@@ -10,7 +10,7 @@ const props = defineProps({
   saved: { type: Boolean, default: false },
 })
 
-const emit = defineEmits(['close', 'add', 'toggle-wishlist'])
+const emit = defineEmits(['close', 'add', 'toggle-wishlist', 'view-details'])
 const qty = ref(1)
 
 watch(
@@ -114,6 +114,15 @@ function addToBag() {
           <Icon name="truck" :size="14" />
           Complimentary delivery over 350 MAD · 14-day returns
         </p>
+
+        <button
+          type="button"
+          class="quick__full-details"
+          @click="emit('view-details', product)"
+        >
+          View full product details
+          <Icon name="arrowRight" :size="14" />
+        </button>
 
         <div class="quick__details">
           <details>
@@ -396,6 +405,30 @@ function addToBag() {
   color: var(--ink-faint);
   font-size: 8.5px;
   line-height: 1.5;
+}
+
+.quick__full-details {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: 14px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  transition:
+    gap 200ms ease,
+    color 200ms ease;
+}
+
+.quick__full-details:hover {
+  gap: 13px;
+  color: var(--sage-deep);
 }
 
 .quick__details {

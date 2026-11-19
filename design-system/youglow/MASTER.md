@@ -169,14 +169,43 @@ Quiet, tactile, specific. Short sentences. Avoid hype.
 
 ---
 
-## 9. Page roadmap
+## 9. Interior-page patterns
 
-Homepage is built. Future pages should inherit this master:
+All non-home pages reuse the same shell and rhythm:
 
-1. Shop all / category listing with denser filters and sorting
-2. Product detail page (gallery, shade selector, reviews, wear guide)
-3. The studio booking page with calendar and service detail
-4. Journal index + article template
-5. Cart / checkout / order confirmation
-6. Account + Glow Club dashboard
-7. Legal, shipping & returns
+- **PageHero**: small breadcrumb, 10px eyebrow, oversized serif H1 with a light-green italic accent, 540px lede, optional metadata row or search/filter controls. Background is cream with a faint rose sun at the upper right.
+- **PageCta**: shared deep-green closing band with a serif headline, 12px supporting copy and one or two actions. Use `btn--cream` for the primary action and `btn--ghost-light` for the secondary.
+- **Reading pages**: 710px max text column, 11–12px/1.85 body copy, numbered H2s, sticky table of contents at 230px. On mobile the table of contents collapses and the text becomes single-column.
+- **FAQ**: two-column layout with sticky search/category rail, accordion rows built on native `<details>`, and the first answer open by default.
+- **Shop**: PageHero → filter/sort toolbar → product grid → closing CTA. Filter state lives in the query string so a filtered collection can be shared.
+- **Product**: breadcrumb strip, sticky two-column gallery/purchase panel, ritual strip, review panel, related products, closing CTA.
+- **Journal**: large cover feature + archive grid + quote card; articles use a 710px reading column with a sticky TOC and “read next” module.
+- **Contact / legal forms**: visible labels, inline errors, local success states clearly marked as demo interactions where no server exists.
+
+---
+
+## 10. Page inventory
+
+Built:
+
+1. Homepage
+2. Shop / category listing with filters and sorting
+3. Product detail
+4. About / atelier story
+5. FAQ (searchable, category-filtered)
+6. Contact & studio information
+7. Journal index + article template
+8. Privacy Policy
+9. Terms of Service
+10. Shipping & Returns
+11. Custom 404
+
+Next:
+
+1. Dedicated cart page
+2. Checkout and order confirmation
+3. Account + Glow Club dashboard
+4. Wishlist page
+5. Studio booking page with calendar and service detail
+6. Search results page
+7. Legal review and final cookie-consent integration

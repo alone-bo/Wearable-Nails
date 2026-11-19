@@ -231,27 +231,107 @@ export const testimonials = [
 
 export const journal = [
   {
+    slug: 'make-press-ons-last',
     category: 'The ritual',
     readTime: '4 min read',
     title: 'How to make a press-on set last three weeks',
     excerpt: 'Our technicians share the small prep steps that make all the difference.',
     image: '/images/journal-care.webp',
     alt: 'Hands with soft neutral manicure being cared for with cream',
+    author: 'The YOUGLOW atelier',
+    date: '12 November 2026',
+    intro:
+      'A beautiful press-on set is only half the story. The other half is preparation — the quiet five minutes before application that decide whether your set lasts a weekend or three full weeks.',
+    sections: [
+      {
+        heading: 'Start with clean, dry hands',
+        paragraphs: [
+          'Wash your hands with a gentle soap and dry them completely, paying attention to the sides of the nail and the cuticle line. Any oil or cream left on the nail plate gives the adhesive something to slide against.',
+          'If you have just applied hand cream, wait at least twenty minutes or wipe the nails with the prep pad included in your set.',
+        ],
+      },
+      {
+        heading: 'Size before you stick',
+        paragraphs: [
+          'Lay all ten tips out before applying any adhesive. A tip that is too wide will lift at the edges; one that is too narrow will feel tight and leave a gap. When in doubt, size down and gently file the sides.',
+          'Our sets include ten sizes so you can find a close match for every nail, including the smaller pinky and thumb widths.',
+        ],
+      },
+      {
+        heading: 'Press, hold, and leave it alone',
+        paragraphs: [
+          'Apply the adhesive according to the instructions, press from the cuticle toward the tip, and hold for thirty seconds. Avoid water for the first hour and keep heavy typing to a minimum for the first day.',
+          'At the end of their wear, soak in warm soapy water and lift gently from the side with the wooden cuticle stick. Never force a tip off — the reusable surface is worth protecting.',
+        ],
+      },
+    ],
+    tip: 'Keep the prep pad and spare tips in your travel pouch. A five-minute repair on the road is easier than a salon visit.',
   },
   {
+    slug: 'slower-kind-of-beauty',
     category: 'Inside the atelier',
     readTime: '3 min read',
     title: 'A slower kind of beauty on the Corniche',
     excerpt: 'Step inside the light-filled Casablanca studio behind the YOUGLOW collection.',
     image: '/images/journal-studio.webp',
     alt: 'Warm treatment room with sage walls and soft light in the YOUGLOW atelier',
+    author: 'The YOUGLOW atelier',
+    date: '28 October 2026',
+    intro:
+      'Our studio was designed around a simple idea: the hour should feel as considered as the colour. Tucked just off the Corniche, it is a room of warm plaster, olive branches and unhurried hands.',
+    sections: [
+      {
+        heading: 'A room that asks you to slow down',
+        paragraphs: [
+          'We kept the palette quiet — sage, sand and the soft shine of brushed metal — so the work itself could be the focus. There is no television, no rushing playlist, no queue of appointments waiting by the door.',
+          'Each station has its own light, its own tools and its own small ceramic tray. Tea arrives without asking. Phones are welcome, but most people put them away.',
+        ],
+      },
+      {
+        heading: 'Small team, deep care',
+        paragraphs: [
+          'Every technician at YOUGLOW is trained in both natural nail care and press-on application. We keep the team small so the same hands can look after you visit after visit.',
+          'Our shelves hold the full colour library and a small reference collection of shapes, so choosing a set is a tactile experience rather than a screen decision.',
+        ],
+      },
+    ],
+    tip: 'Book the last appointment of the day if you want the room at its quietest. The light is especially beautiful at 18:00.',
   },
   {
+    slug: 'colour-stories-we-return-to',
     category: 'Colour notes',
     readTime: '5 min read',
     title: 'The colour stories we return to, season after season',
     excerpt: 'Olive, café crème and pearl — the quiet palette that started it all.',
     image: '/images/journal-colour.webp',
     alt: 'Neutral lilac and pearl press-on nails on a cream knit',
+    author: 'The YOUGLOW atelier',
+    date: '15 October 2026',
+    intro:
+      'Trends move quickly, but the colours our clients return to are rarely loud. They are the shades that feel like a favourite knit — familiar, flattering and quietly expensive.',
+    sections: [
+      {
+        heading: 'Olive, with a little light',
+        paragraphs: [
+          'The Olive Hour began as a single sage polish on a shoot in the Atlas foothills. We kept returning to the way it looked beside warm stone and rose gold, so it became a full five-shade set.',
+          'Wear it alone for a tonal manicure, or pair the deepest olive with a single chrome accent for a little evening light.',
+        ],
+      },
+      {
+        heading: 'Café crème, the everyday neutral',
+        paragraphs: [
+          'A warm mocha is the easiest colour to live with. It flatters every skin tone, hides the small marks of daily life and looks intentional even when you have not thought about it.',
+          'We keep Café Crème in a short square shape so it feels modern rather than precious — good with denim, better with a blazer.',
+        ],
+      },
+      {
+        heading: 'Pearl, for the quiet drama',
+        paragraphs: [
+          'Pearl is not a colour so much as a surface. It shifts with the light: cream in the morning, blush at golden hour, a little silver under evening lamps.',
+          'Use it when you want a manicure that is noticed but never loud. It is the set we reach for before a wedding, a dinner or a long-awaited holiday.',
+        ],
+      },
+    ],
+    tip: 'Build a small shelf of neutrals rather than a large shelf of trends. You will wear them more, and they will always feel like you.',
   },
 ]

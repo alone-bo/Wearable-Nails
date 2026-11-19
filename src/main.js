@@ -1,9 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router.js'
 import './fonts.css'
 import './styles.css'
 
 const app = createApp(App)
+
+app.use(router)
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
