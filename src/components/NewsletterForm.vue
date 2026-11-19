@@ -48,17 +48,13 @@ function subscribe() {
     >
       {{ message }}
     </p>
-
-    <p class="newsletter-form__fineprint">
-      10% off your first order · New drops and atelier notes · Unsubscribe anytime.
-    </p>
   </form>
 </template>
 
 <style scoped>
 .newsletter-form {
   width: 100%;
-  max-width: 470px;
+  max-width: 370px;
 }
 
 .newsletter-form__field {
@@ -135,15 +131,11 @@ function subscribe() {
   color: rgba(247, 242, 233, 0.96);
 }
 
-.newsletter-form__fineprint {
-  margin-top: 10px;
-  color: rgba(247, 242, 233, 0.74);
-  font-size: 7.5px;
-  letter-spacing: 0.02em;
-  line-height: 1.6;
-}
-
 @media (max-width: 540px) {
+  .newsletter-form {
+    max-width: none;
+  }
+
   .newsletter-form__field {
     align-items: stretch;
     flex-direction: column;
@@ -155,10 +147,6 @@ function subscribe() {
 
   .newsletter-form__field button {
     justify-content: center;
-  }
-
-  .newsletter-form__fineprint {
-    text-align: center;
   }
 }
 </style>

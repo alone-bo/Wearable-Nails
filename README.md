@@ -50,7 +50,9 @@ The test suite covers desktop navigation, product search and filters, quick view
 - Full product reviews pages with rating breakdown, rating filters and a validated demo review form
 - Full cart page and checkout / payment page with delivery and payment options
 - Shared shopping bag drawer: quantity updates, remove, free-delivery progress, subtotal
-- Newsletter subscription integrated into the footer instead of a standalone homepage module
+- Newsletter subscription integrated directly beneath the footer logo, with no separate marketing copy block
+- Enlarged primary navigation with dedicated Reviews entry and exclusive active states
+- Product review entry integrated into the clickable rating summary on every product page
 - Instant search dialog linking into product quick views and full product pages
 - Studio services with a validated appointment request flow
 - About page with brand story, values, atelier photography and timeline

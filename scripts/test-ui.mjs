@@ -48,6 +48,11 @@ assert((await page.locator('h1').innerText()).includes('Quietly'), 'homepage her
 assert((await page.locator('.product-card').count()) === 8, 'homepage shows eight products')
 assert((await page.locator('#newsletter').count()) === 0, 'standalone newsletter module is removed')
 assert((await page.locator('#footer-newsletter').count()) === 1, 'newsletter lives inside the footer')
+assert((await page.locator('#footer-newsletter').evaluate((el) => !!el.closest('.footer__brand-block'))), 'newsletter input sits below the footer logo')
+assert(!(await page.locator('#footer').innerText()).includes('Stay in the glow'), 'footer newsletter has no separate marketing copy')
+assert((await page.locator('.primary-nav a').filter({ hasText: 'Reviews' }).count()) === 1, 'Reviews is present in the primary menu')
+assert((await page.locator('.primary-nav a').filter({ hasText: 'Reviews' }).getAttribute('href')).endsWith('/product/olive-hour/reviews'), 'Reviews menu links to the product review page')
+assert((await page.locator('.primary-nav a').first().evaluate((el) => getComputedStyle(el).fontSize)) === '11px', 'primary menu font size is enlarged')
 
 // Homepage product search
 await page.locator('#home-product-search').fill('serum')
@@ -132,6 +137,8 @@ await page.getByRole('button', { name: 'View full product details' }).click()
 await page.waitForURL('**/product/soft-buff')
 await page.waitForTimeout(450)
 assert((await page.locator('h1').innerText()).includes('Soft Buff Duo'), 'product page opens from quick view')
+assert((await page.locator('.product-info__rating').evaluate((el) => el.tagName)).toLowerCase() === 'a', 'product rating summary is a clickable reviews entry')
+assert((await page.locator('.product-info__rating').getAttribute('href')).endsWith('/reviews'), 'product rating entry points to the reviews page')
 
 await page.getByRole('button', { name: /Add to bag/ }).click()
 await page.waitForTimeout(550)
@@ -142,10 +149,12 @@ await page.waitForTimeout(400)
 // Product reviews page and review form
 await page.goto(baseUrl + '/product/olive-hour', { waitUntil: 'networkidle' })
 await page.waitForTimeout(300)
-await page.getByRole('link', { name: 'Read all reviews' }).first().click()
+await page.getByRole('link', { name: /Read all .*reviews/i }).first().click()
 await page.waitForURL('**/product/olive-hour/reviews')
 await page.waitForTimeout(350)
 assert((await page.locator('h1').innerText()).includes('reviews'), 'product reviews page renders')
+assert((await page.locator('.primary-nav a.is-current').count()) === 1, 'only the Reviews menu item is active on the reviews page')
+assert((await page.locator('.primary-nav a.is-current').innerText()).toLowerCase().includes('reviews'), 'Reviews menu link reflects the current page')
 assert((await page.locator('.review-card').count()) === 6, 'product reviews page lists review cards')
 await page.getByRole('button', { name: /4 stars/ }).click()
 await page.waitForTimeout(200)
@@ -306,7 +315,7 @@ assert((await page.locator('h1').innerText()).includes('wandered off'), '404 pag
 
 // Assets and overflow
 const keyPages = ['/', '/shop', '/product/olive-hour', '/product/olive-hour/reviews', '/cart', '/checkout', '/about', '/faq', '/contact', '/journal', '/journal/make-press-ons-last', '/privacy', '/terms', '/shipping-returns', '/404']
-const breakpoints = [1440, 1024, 768, 390, 360]
+const breakpoints = [1440, 1280, 1024, 768, 390, 360]
 for (const width of breakpoints) {
   const p = await makePage({ width, height: 900 })
   for (const path of keyPages) {

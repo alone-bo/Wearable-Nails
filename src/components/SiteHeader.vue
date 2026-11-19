@@ -21,6 +21,7 @@ const navItems = [
   { label: 'Nail care', to: '/shop?category=care', category: 'care' },
   { label: 'About', to: '/about' },
   { label: 'Journal', to: '/journal' },
+  { label: 'Reviews', to: '/product/olive-hour/reviews', reviews: true },
   { label: 'FAQ', to: '/faq' },
 ]
 
@@ -29,6 +30,10 @@ function isCurrent(item) {
     if (route.path !== '/shop') return false
     const currentCategory = route.query.category || 'all'
     return currentCategory === item.category
+  }
+
+  if (item.reviews) {
+    return /^\/product\/[^/]+\/reviews$/.test(route.path)
   }
 
   if (item.to === '/journal') {
@@ -237,18 +242,19 @@ function handleNavClick(event, navigate) {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(22px, 2.6vw, 40px);
+  gap: clamp(17px, 2.1vw, 30px);
 }
 
 .primary-nav a {
   position: relative;
   padding-block: 8px;
   color: var(--ink-soft);
-  font-size: 9.5px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   line-height: 1;
   text-transform: uppercase;
+  white-space: nowrap;
   transition: color 200ms ease;
 }
 

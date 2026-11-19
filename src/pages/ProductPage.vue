@@ -92,13 +92,20 @@ function goToProduct(item) {
           <h1 id="product-title" class="product-info__title">{{ product.name }}</h1>
           <p class="product-info__shade">{{ product.shade }}</p>
 
-          <div class="product-info__rating">
+          <RouterLink
+            :to="`/product/${product.id}/reviews`"
+            class="product-info__rating"
+            :aria-label="`Read all ${product.reviews} reviews for ${product.name}`"
+          >
             <span class="stars" aria-hidden="true">
               <Icon v-for="star in 5" :key="star" name="star" :size="13" />
             </span>
             <span>{{ product.rating.toFixed(1) }} · {{ product.reviews }} reviews</span>
-            <RouterLink :to="`/product/${product.id}/reviews`">Read all reviews</RouterLink>
-          </div>
+            <span class="product-info__rating-link">
+              Read all reviews
+              <Icon name="arrowUpRight" :size="13" />
+            </span>
+          </RouterLink>
 
           <div class="product-info__price">
             <strong>{{ product.price }} MAD</strong>
@@ -463,9 +470,23 @@ function goToProduct(item) {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px 13px;
-  margin-top: 17px;
+  margin-top: 18px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  background: var(--cream-soft);
   color: var(--ink-faint);
   font-size: 9px;
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.product-info__rating:hover {
+  border-color: var(--sage);
+  background: var(--white);
+  color: var(--ink-soft);
 }
 
 .stars {
@@ -474,18 +495,23 @@ function goToProduct(item) {
   color: var(--rose-deep);
 }
 
-.product-info__rating a {
+.product-info__rating-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   margin-left: auto;
   padding-bottom: 2px;
   border-bottom: 1px solid var(--line);
+  color: var(--sage-deep);
+  font-weight: 500;
   transition:
-    color 200ms ease,
+    gap 200ms ease,
     border-color 200ms ease;
 }
 
-.product-info__rating a:hover {
-  border-color: var(--ink);
-  color: var(--ink);
+.product-info__rating:hover .product-info__rating-link {
+  gap: 9px;
+  border-color: var(--sage-deep);
 }
 
 .product-info__price {

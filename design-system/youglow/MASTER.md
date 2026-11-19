@@ -184,7 +184,9 @@ All non-home pages reuse the same shell and rhythm:
 - **Product**: breadcrumb strip, sticky two-column gallery/purchase panel, ritual strip, review panel, related products, closing CTA.
 - **Reviews**: product summary with rating breakdown, star-filter buttons, review cards and a validated review form. Filters stay local to the page; the form is explicitly marked as a demo.
 - **Cart / checkout**: full-bag page with sticky summary, then a payment page with address, shipping and payment sections. The checkout is a demo, labels card fields as demo-only and clears the bag after the demo confirmation.
-- **Newsletter**: the subscription form lives inside the footer, not as a standalone page section. It uses a compact inline field, explicit validation and a local success state.
+- **Newsletter**: the subscription input sits directly below the footer logo, with no separate heading, marketing copy block or standalone page section. It uses a compact inline field, explicit validation and a local success state.
+- **Product reviews entry**: the rating summary on a product page is itself an obvious bordered link to `/product/:slug/reviews`, with a visible “Read all reviews” affordance and arrow. Keep a second entry in the lower review section for longer pages.
+- **Navigation**: primary menu labels are 11px with generous click targets, show exactly one active item, and include a dedicated Reviews entry that activates on any product reviews route.
 - **Journal**: large cover feature + archive grid + quote card; articles use a 710px reading column with a sticky TOC and “read next” module.
 - **Contact / legal forms**: visible labels, inline errors, local success states clearly marked as demo interactions where no server exists.
 

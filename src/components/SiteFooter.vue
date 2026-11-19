@@ -15,23 +15,16 @@ const emit = defineEmits(['open-booking'])
     </div>
 
     <div class="container footer__inner">
-      <div id="footer-newsletter" class="footer__newsletter">
-        <div class="footer__newsletter-copy">
-          <span class="eyebrow eyebrow--light">Letters from the atelier</span>
-          <h2>Stay in the <em>glow.</em></h2>
-          <p>
-            New drops, studio notes and small-batch invitations. Join the list for 10% off your
-            first order.
-          </p>
-        </div>
-        <NewsletterForm />
-      </div>
-
       <div class="footer__top">
         <div class="footer__brand-block">
           <RouterLink to="/" class="footer__brand" aria-label="YOUGLOW — home">
             <BrandLogo light />
           </RouterLink>
+
+          <div id="footer-newsletter" class="footer__subscribe">
+            <NewsletterForm />
+          </div>
+
           <p class="footer__tagline">
             Press-on nail rituals and slow studio care, hand-finished in Casablanca.
           </p>
@@ -135,41 +128,10 @@ const emit = defineEmits(['open-booking'])
   padding-bottom: 28px;
 }
 
-.footer__newsletter {
-  display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-  align-items: end;
-  gap: clamp(30px, 7vw, 100px);
-  margin-bottom: clamp(42px, 5vw, 66px);
-  padding-bottom: clamp(34px, 4vw, 48px);
-  border-bottom: 1px solid var(--line-light);
+.footer__subscribe {
+  width: min(100%, 370px);
+  margin-top: 19px;
   scroll-margin-top: 110px;
-}
-
-.footer__newsletter-copy h2 {
-  margin-top: 12px;
-  color: var(--cream);
-  font-size: clamp(2.35rem, 4vw, 3.5rem);
-  font-weight: 300;
-  line-height: 0.98;
-}
-
-.footer__newsletter-copy h2 em {
-  color: var(--rose-light);
-}
-
-.footer__newsletter-copy > p {
-  max-width: 440px;
-  margin-top: 11px;
-  color: rgba(247, 242, 233, 0.94);
-  font-size: 10.5px;
-  line-height: 1.75;
-}
-
-.footer__newsletter :deep(.newsletter-form) {
-  width: 100%;
-  max-width: 470px;
-  justify-self: end;
 }
 
 .footer__top {
@@ -195,9 +157,7 @@ const emit = defineEmits(['open-booking'])
   color: rgba(247, 242, 233, 0.96);
   font-size: 12px;
   line-height: 1.8;
-}
-
-.footer__arabic {
+}.footer__arabic {
   margin-top: 14px;
   color: rgba(247, 242, 233, 0.94);
   font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -367,16 +327,6 @@ const emit = defineEmits(['open-booking'])
 }
 
 @media (max-width: 940px) {
-  .footer__newsletter {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  .footer__newsletter :deep(.newsletter-form) {
-    justify-self: start;
-  }
-
   .footer__top {
     grid-template-columns: 1fr;
     gap: 44px;
@@ -389,15 +339,6 @@ const emit = defineEmits(['open-booking'])
 }
 
 @media (max-width: 640px) {
-  .footer__newsletter {
-    margin-bottom: 38px;
-    padding-bottom: 30px;
-  }
-
-  .footer__newsletter-copy h2 {
-    font-size: 2.4rem;
-  }
-
   .footer__columns {
     grid-template-columns: 1fr 1fr;
     row-gap: 34px;
